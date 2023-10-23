@@ -6,7 +6,7 @@ function App() {
 	return (
 		<>
 			<Card>
-				<Card.Title>Hello</Card.Title>
+				<Card.Title>Planning</Card.Title>
 			</Card>
 		</>
 	);
