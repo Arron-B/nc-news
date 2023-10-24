@@ -7,8 +7,6 @@ import Article from "./components/Article";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-	const [isLoading, setIsLoading] = useState(true);
-
 	return (
 		<>
 			<NewsNav />

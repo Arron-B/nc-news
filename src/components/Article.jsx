@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import {
-	fetchArticleById,
-	fetchCommentsByArticleId,
-	voteOnArticle,
-} from "../api";
+import { fetchArticleById, voteOnArticle } from "../api";
 import {
 	Card,
 	Container,
@@ -14,6 +10,8 @@ import {
 	Overlay,
 } from "react-bootstrap";
 import { capitaliseFirstLetter } from "../utils/utils";
+import Comments from "./Comments";
+import Loading from "./Loading";
 
 function Article() {
 	const { article_id } = useParams();
@@ -22,22 +20,18 @@ function Article() {
 
 	const [article, setArticle] = useState(false);
 	const [votes, setVotes] = useState(0);
-	const [comments, setComments] = useState([]);
+
 	const [voteFail, setVoteFail] = useState(false);
 	const [voteSuccess, setVoteSuccess] = useState(false);
 	const [errMsg, setErrMsg] = useState("Something went wrong!");
 	const [votesDisabled, setVotesDisabled] = useState(false);
+	const [showComments, setShowComments] = useState(false);
 
 	useEffect(() => {
-		fetchArticleById(article_id)
-			.then((res) => {
-				setArticle(res.data.article);
-				setVotes(res.data.article.votes);
-				return fetchCommentsByArticleId(article_id);
-			})
-			.then((res) => {
-				setComments(res.data.comments);
-			});
+		fetchArticleById(article_id).then((res) => {
+			setArticle(res.data.article);
+			setVotes(res.data.article.votes);
+		});
 	}, []);
 
 	function handleVote(increment) {
@@ -159,35 +153,21 @@ function Article() {
 						</div>
 					)}
 				</Overlay>
-				<DropdownButton
-					title="Comments"
-					id="comments-dropdown"
+				<Button
+					aria-label="show/hide comments button"
+					id="comments-button"
+					onClick={(e) => {
+						e.preventDefault();
+						setShowComments(!showComments);
+					}}
 				>
-					<section aria-label="comments section">
-						{comments.map((comment) => {
-							return (
-								<Card key={`comment${comment.comment_id}`}>
-									<p>{comment.author}</p>
-									<Card.Body>{comment.body}</Card.Body>
-								</Card>
-							);
-						})}
-					</section>
-				</DropdownButton>
+					Comments
+				</Button>
+				{showComments ? <Comments articleId={article_id} /> : null}
 			</article>
 		);
 	} else {
-		return (
-			<Container className="mx-auto my-auto w-100 d-flex flex-column align-items-center">
-				<Spinner
-					animation="border"
-					role="status"
-				>
-					<span className="visually-hidden "></span>
-				</Spinner>
-				<p>Loading...</p>
-			</Container>
-		);
+		return <Loading />;
 	}
 }
 

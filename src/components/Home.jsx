@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { fetchAllTopics, fetchArticlesByTopic } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 function Home() {
 	const [topics, setTopics] = useState([]);
@@ -53,6 +54,7 @@ function Home() {
 								aria-label={`Show all articles for the topic ${thisTopic}`}
 								onClick={(e) => {
 									e.preventDefault();
+									setIsLoading(true);
 									setSelectedTopic(e.target.value);
 								}}
 								value={thisTopic}
@@ -87,17 +89,7 @@ function Home() {
 			</>
 		);
 	} else {
-		return (
-			<Container className="mx-auto my-auto w-100 d-flex flex-column align-items-center">
-				<Spinner
-					animation="border"
-					role="status"
-				>
-					<span className="visually-hidden "></span>
-				</Spinner>
-				<p>Loading...</p>
-			</Container>
-		);
+		return <Loading />;
 	}
 }
 

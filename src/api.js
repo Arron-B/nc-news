@@ -21,6 +21,7 @@ export function fetchArticleById(id) {
 }
 
 export function fetchCommentsByArticleId(id) {
+	console.log(id);
 	return axios.get(`${domainName}/api/articles/${id}/comments`).then((res) => {
 		return res;
 	});
