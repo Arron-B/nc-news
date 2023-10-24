@@ -10,6 +10,7 @@ function Home() {
 	const [selectedTopic, setSelectedTopic] = useState("");
 	const [displayArticles, setDisplayArticles] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [selectDefault, setSelectDefault] = useState("All");
 
 	useEffect(() => {
 		fetchAllTopics()
@@ -37,9 +38,11 @@ function Home() {
 				<Form.Select
 					size="sm"
 					title="topics"
+					defaultValue={selectDefault}
 				>
 					<option
 						onClick={(e) => {
+							setSelectDefault("All");
 							setSelectedTopic(e.target.value);
 						}}
 						aria-label="show all articles"
@@ -54,6 +57,7 @@ function Home() {
 								aria-label={`Show all articles for the topic ${thisTopic}`}
 								onClick={(e) => {
 									e.preventDefault();
+									setSelectDefault(e.target.value);
 									setIsLoading(true);
 									setSelectedTopic(e.target.value);
 								}}
