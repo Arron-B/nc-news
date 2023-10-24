@@ -26,7 +26,6 @@ function Home() {
 
 	useEffect(() => {
 		console.log("fetching all by topic");
-		setIsLoading(true);
 		fetchArticlesByTopic(selectedTopic).then((res) => {
 			setDisplayArticles(res.data.articles);
 			setIsLoading(false);
@@ -38,7 +37,10 @@ function Home() {
 			<>
 				<Form.Select size="sm">
 					<option
-						onClick={(e) => setSelectedTopic(e.target.value)}
+						onClick={(e) => {
+							setSelectedTopic(e.target.value);
+							console.log(window.location);
+						}}
 						value={""}
 						key="All"
 					>
@@ -47,7 +49,10 @@ function Home() {
 					{topics.map((thisTopic) => {
 						return (
 							<option
-								onClick={(e) => setSelectedTopic(e.target.value)}
+								onClick={(e) => {
+									e.preventDefault();
+									setSelectedTopic(e.target.value);
+								}}
 								value={thisTopic}
 								key={thisTopic}
 							>
@@ -64,8 +69,8 @@ function Home() {
 								variant="top"
 								src={thisCard.article_img_url}
 							/>
-							<Card.Text>{thisCard.votes}</Card.Text>
-							<Card.Text>{thisCard.comment_count}</Card.Text>
+							<Card.Text>votes: {thisCard.votes}</Card.Text>
+							<Card.Text>Comments: {thisCard.comment_count}</Card.Text>
 						</Card>
 					);
 				})}

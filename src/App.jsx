@@ -3,6 +3,7 @@ import { Container, Spinner } from "react-bootstrap";
 import "./App.css";
 import NewsNav from "./components/NewsNav";
 import Home from "./components/Home";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +11,12 @@ function App() {
 	return (
 		<>
 			<NewsNav />
-			<Home />
+			<Routes>
+				<Route
+					path="/"
+					element={<Home />}
+				/>
+			</Routes>
 		</>
 	);
 }
