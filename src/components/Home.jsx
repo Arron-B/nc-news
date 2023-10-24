@@ -44,6 +44,7 @@ function Home() {
 						onClick={(e) => {
 							setSelectDefault("All");
 							setSelectedTopic(e.target.value);
+							setIsLoading(true);
 						}}
 						aria-label="show all articles"
 						value={""}
