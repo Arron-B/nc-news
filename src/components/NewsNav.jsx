@@ -5,8 +5,11 @@ function NewsNav() {
 	return (
 		<>
 			<Navbar>
-				<Link to="/">
-					<Navbar.Brand>NC News</Navbar.Brand>
+				<Link
+					className="mx-auto"
+					to="/"
+				>
+					<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
 				</Link>
 			</Navbar>
 		</>

@@ -65,18 +65,18 @@ function Article() {
 
 	if (article) {
 		return (
-			<Card>
-				<Card.Title>{article.title}</Card.Title>
-				<Card.Subtitle>Posted: {article.created_at}</Card.Subtitle>
-				<Card.Subtitle>{capitaliseFirstLetter(article.topic)}</Card.Subtitle>
-				<Card.Subtitle>Author: {article.author}</Card.Subtitle>
+			<article className="d-flex flex-column">
+				<h2>{article.title}</h2>
+				<p>Posted: {article.created_at}</p>
+				<p>{capitaliseFirstLetter(article.topic)}</p>
+				<p>Author: {article.author}</p>
 				<Card.Img
 					variant="top"
 					alt={`an image for article titled ${article.title}`}
 					src={article.article_img_url}
 				/>
-				<Card.Text>{article.body}</Card.Text>
-				<Card.Text>Votes: {votes}</Card.Text>
+				<p>{article.body}</p>
+				<p>Votes: {votes}</p>
 				<Button
 					className="w-50"
 					variant="light"
@@ -167,14 +167,14 @@ function Article() {
 						{comments.map((comment) => {
 							return (
 								<Card key={`comment${comment.comment_id}`}>
-									<Card.Subtitle>{comment.author}</Card.Subtitle>
+									<p>{comment.author}</p>
 									<Card.Body>{comment.body}</Card.Body>
 								</Card>
 							);
 						})}
 					</section>
 				</DropdownButton>
-			</Card>
+			</article>
 		);
 	} else {
 		return (

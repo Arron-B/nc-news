@@ -56,7 +56,7 @@ function Home() {
 									setSelectedTopic(e.target.value);
 								}}
 								value={thisTopic}
-								key={thisTopic}
+								key={`select-${thisTopic}`}
 							>
 								{capitaliseFirstLetter(thisTopic)}
 							</option>
@@ -65,9 +65,11 @@ function Home() {
 				</Form.Select>
 				{displayArticles.map((thisCard) => {
 					return (
-						<Link to={`/articles/${thisCard.article_id}`}>
+						<Link
+							key={`home-article-${thisCard.article_id}`}
+							to={`/articles/${thisCard.article_id}`}
+						>
 							<Card
-								key={thisCard.article_id}
 								aria-label={`A card showing the article titled ${thisCard.title}`}
 							>
 								<Card.Title>{thisCard.title}</Card.Title>
