@@ -13,3 +13,15 @@ export function fetchArticlesByTopic(topic) {
 		return res;
 	});
 }
+
+export function fetchArticleById(id) {
+	return axios.get(`${domainName}/api/articles/${id}`).then((res) => {
+		return res;
+	});
+}
+
+export function fetchCommentsByArticleId(id) {
+	return axios.get(`${domainName}/api/articles/${id}/comments`).then((res) => {
+		return res;
+	});
+}
