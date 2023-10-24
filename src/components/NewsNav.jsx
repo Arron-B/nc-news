@@ -1,10 +1,13 @@
 import { Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function NewsNav() {
 	return (
 		<>
 			<Navbar>
-				<Navbar.Brand>NC News</Navbar.Brand>
+				<Link to="/">
+					<Navbar.Brand>NC News</Navbar.Brand>
+				</Link>
 			</Navbar>
 		</>
 	);

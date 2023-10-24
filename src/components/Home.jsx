@@ -2,6 +2,7 @@ import { Form, Card, Container, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { fetchAllTopics, fetchArticlesByTopic } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
+import { Link } from "react-router-dom";
 
 function Home() {
 	const [topics, setTopics] = useState([]);
@@ -12,12 +13,10 @@ function Home() {
 	useEffect(() => {
 		fetchAllTopics()
 			.then((res) => {
-				console.log("fetching topics");
 				const fetchedTopics = res.data.topics.map(
 					(thisTopic) => thisTopic.slug
 				);
 				setTopics(fetchedTopics);
-				console.log("topics fetched");
 			})
 			.catch((err) => {
 				console.log(err);
@@ -25,7 +24,6 @@ function Home() {
 	}, []);
 
 	useEffect(() => {
-		console.log("fetching all by topic");
 		fetchArticlesByTopic(selectedTopic).then((res) => {
 			setDisplayArticles(res.data.articles);
 			setIsLoading(false);
@@ -35,12 +33,15 @@ function Home() {
 	if (!isLoading) {
 		return (
 			<>
-				<Form.Select size="sm">
+				<Form.Select
+					size="sm"
+					title="topics"
+				>
 					<option
 						onClick={(e) => {
 							setSelectedTopic(e.target.value);
-							console.log(window.location);
 						}}
+						aria-label="show all articles"
 						value={""}
 						key="All"
 					>
@@ -49,6 +50,7 @@ function Home() {
 					{topics.map((thisTopic) => {
 						return (
 							<option
+								aria-label={`Show all articles for the topic ${thisTopic}`}
 								onClick={(e) => {
 									e.preventDefault();
 									setSelectedTopic(e.target.value);
@@ -63,15 +65,21 @@ function Home() {
 				</Form.Select>
 				{displayArticles.map((thisCard) => {
 					return (
-						<Card key={thisCard.article_id}>
-							<Card.Title>{thisCard.title}</Card.Title>
-							<Card.Img
-								variant="top"
-								src={thisCard.article_img_url}
-							/>
-							<Card.Text>votes: {thisCard.votes}</Card.Text>
-							<Card.Text>Comments: {thisCard.comment_count}</Card.Text>
-						</Card>
+						<Link to={`/articles/${thisCard.article_id}`}>
+							<Card
+								key={thisCard.article_id}
+								aria-label={`A card showing the article titled ${thisCard.title}`}
+							>
+								<Card.Title>{thisCard.title}</Card.Title>
+								<Card.Img
+									variant="top"
+									alt={`an image for the article titled ${thisCard.title}`}
+									src={thisCard.article_img_url}
+								/>
+								<Card.Text>votes: {thisCard.votes}</Card.Text>
+								<Card.Text>Comments: {thisCard.comment_count}</Card.Text>
+							</Card>
+						</Link>
 					);
 				})}
 			</>
