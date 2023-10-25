@@ -36,7 +36,6 @@ function UserLogin({ handleLogin }) {
 							<Button
 								variant="primary"
 								onClick={() => {
-									console.log(handleLogin);
 									handleLogin(user);
 									setShow(false);
 								}}
