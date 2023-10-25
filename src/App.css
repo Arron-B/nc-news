@@ -1,5 +1,4 @@
 #root {
-	max-width: 1280px;
 	margin: 0;
 	padding: 0;
 	text-align: center;
@@ -34,4 +33,14 @@ a {
 }
 .loading {
 	z-index: 100 !important;
+}
+
+@media (min-width: 961px) {
+	body {
+		display: flex;
+		justify-content: center;
+	}
+	#root {
+		width: 50% !important;
+	}
 }
