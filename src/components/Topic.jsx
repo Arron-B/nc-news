@@ -14,6 +14,7 @@ function Topic() {
 
 	useEffect(() => {
 		setTopic(searchParams.get("topic"));
+		setDisplayArticles(false);
 	}, [search]);
 
 	useEffect(() => {
