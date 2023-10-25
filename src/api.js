@@ -27,7 +27,6 @@ export function fetchArticleById(id) {
 }
 
 export function fetchCommentsByArticleId(id) {
-	console.log(id);
 	return axios.get(`${domainName}/api/articles/${id}/comments`).then((res) => {
 		return res;
 	});
@@ -47,4 +46,15 @@ export function fetchAllUsers() {
 	return axios.get(`${domainName}/api/users`).then((res) => {
 		return res;
 	});
+}
+
+export function postComment(articleId, username, body) {
+	return axios
+		.post(`${domainName}/api/articles/${articleId}/comments`, {
+			username: username,
+			body: body,
+		})
+		.then((res) => {
+			return res;
+		});
 }

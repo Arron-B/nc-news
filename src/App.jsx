@@ -25,7 +25,7 @@ function App() {
 				/>
 				<Route
 					path="/articles/:article_id"
-					element={<Article />}
+					element={<Article user={user} />}
 				/>
 				<Route
 					path="/articles"
