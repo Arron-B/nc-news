@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { Container, Spinner } from "react-bootstrap";
 import "./App.css";
 import NewsNav from "./components/NewsNav";
 import Home from "./components/Home";
 import Article from "./components/Article";
 import Topic from "./components/Topic";
+import UserLogin from "./components/UserLogin";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
+	const [user, setUser] = useState("");
+
+	function handleLogin(selectedUser) {
+		setUser(selectedUser);
+	}
+
 	return (
 		<>
-			<NewsNav />
+			<UserLogin handleLogin={handleLogin} />
+			<NewsNav user={user} />
 			<Routes>
 				<Route
 					path="/"

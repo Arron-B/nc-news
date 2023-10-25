@@ -1,7 +1,6 @@
-import { Form, Card, Container, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { fetchAllArticles } from "../api";
-import { capitaliseFirstLetter } from "../utils/utils";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
