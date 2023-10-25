@@ -4,6 +4,7 @@ import "./App.css";
 import NewsNav from "./components/NewsNav";
 import Home from "./components/Home";
 import Article from "./components/Article";
+import Topic from "./components/Topic";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -18,6 +19,10 @@ function App() {
 				<Route
 					path="/articles/:article_id"
 					element={<Article />}
+				/>
+				<Route
+					path="/articles"
+					element={<Topic />}
 				/>
 			</Routes>
 		</>

@@ -8,6 +8,12 @@ export function fetchAllTopics() {
 	});
 }
 
+export function fetchAllArticles() {
+	return axios.get(`${domainName}/api/articles`).then((res) => {
+		return res;
+	});
+}
+
 export function fetchArticlesByTopic(topic) {
 	return axios.get(`${domainName}/api/articles?topic=${topic}`).then((res) => {
 		return res;
