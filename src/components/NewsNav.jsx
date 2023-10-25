@@ -34,6 +34,7 @@ function NewsNav() {
 				<Button
 					variant="secondary"
 					onClick={toggleShow}
+					size="sm"
 				>
 					Topics
 				</Button>

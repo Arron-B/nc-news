@@ -1,75 +1,24 @@
 import { Form, Card, Container, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { fetchAllTopics, fetchArticlesByTopic } from "../api";
+import { fetchAllArticles } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
 function Home() {
-	const [topics, setTopics] = useState([]);
-	const [selectedTopic, setSelectedTopic] = useState("");
 	const [displayArticles, setDisplayArticles] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [selectDefault, setSelectDefault] = useState("All");
 
 	useEffect(() => {
-		fetchAllTopics()
-			.then((res) => {
-				const fetchedTopics = res.data.topics.map(
-					(thisTopic) => thisTopic.slug
-				);
-				setTopics(fetchedTopics);
-			})
-			.catch((err) => {
-				console.log(err);
-			}, []);
-	}, []);
-
-	useEffect(() => {
-		fetchArticlesByTopic(selectedTopic).then((res) => {
+		fetchAllArticles().then((res) => {
 			setDisplayArticles(res.data.articles);
 			setIsLoading(false);
 		});
-	}, [selectedTopic]);
+	}, []);
 
 	if (!isLoading) {
 		return (
 			<>
-				<Form.Select
-					size="sm"
-					title="topics"
-					defaultValue={selectDefault}
-				>
-					<option
-						onClick={(e) => {
-							setSelectDefault("All");
-							setSelectedTopic(e.target.value);
-							setIsLoading(true);
-						}}
-						aria-label="show all articles"
-						value={""}
-						key="All"
-					>
-						All
-					</option>
-					{topics.map((thisTopic) => {
-						return (
-							<option
-								aria-label={`Show all articles for the topic ${thisTopic}`}
-								onClick={(e) => {
-									e.preventDefault();
-									setSelectDefault(e.target.value);
-									setIsLoading(true);
-									setSelectedTopic(e.target.value);
-								}}
-								value={thisTopic}
-								key={`select-${thisTopic}`}
-							>
-								{capitaliseFirstLetter(thisTopic)}
-							</option>
-						);
-					})}
-				</Form.Select>
 				{displayArticles.map((thisCard) => {
 					return (
 						<Link
