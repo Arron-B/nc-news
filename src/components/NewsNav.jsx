@@ -1,10 +1,10 @@
-import { Navbar, Button, Offcanvas } from "react-bootstrap";
+import { Navbar, Button, Offcanvas, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchAllTopics } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
 
-function NewsNav() {
+function NewsNav({ user }) {
 	const [show, setShow] = useState(false);
 	const [topics, setTopics] = useState([]);
 
@@ -77,6 +77,12 @@ function NewsNav() {
 				>
 					<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
 				</Link>
+				<Image
+					className="w-25 img-fluid"
+					alt="Your user avatar image"
+					src={user.avatar_url}
+					roundedCircle
+				></Image>
 			</Navbar>
 		</>
 	);

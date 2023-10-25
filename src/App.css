@@ -1,10 +1,37 @@
 #root {
 	max-width: 1280px;
-	margin: 0 auto;
-	padding: 2rem;
+	margin: 0;
+	padding: 0;
 	text-align: center;
 }
 
 a {
 	text-decoration: none !important;
+}
+
+.avatar-img {
+	width: 5rem !important;
+	height: 5rem !important;
+}
+
+.card-body {
+	width: 50% !important;
+	margin: 0 !important;
+}
+
+.user-card {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center;
+}
+
+.await-accounts {
+	z-index: 99;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	margin: 0 !important;
+}
+.loading {
+	z-index: 100 !important;
 }

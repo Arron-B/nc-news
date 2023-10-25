@@ -42,3 +42,9 @@ export function voteOnArticle(articleId, vote) {
 			return res;
 		});
 }
+
+export function fetchAllUsers() {
+	return axios.get(`${domainName}/api/users`).then((res) => {
+		return res;
+	});
+}
