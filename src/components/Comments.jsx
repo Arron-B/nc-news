@@ -75,38 +75,40 @@ function Comments({ articleId, user }) {
 				className="mt-2"
 				aria-label="comments section"
 			>
-				<Form
-					className="my-2"
-					style={{ height: "10rem" }}
-					onSubmit={(e) => {
-						e.preventDefault();
-						handleCommentPost(articleId, user.username, userComment);
-						setPostedComment(userComment);
-						setTempComment(true);
-					}}
-				>
-					<FloatingLabel
-						style={{ height: "7rem" }}
-						controlId="commentInput"
-						label="Write a comment here"
-					>
-						<Form.Control
-							style={{ height: "100%", width: "100%" }}
-							type="text"
-							value={userComment}
-							onChange={(e) => {
-								setUserComment(e.target.value);
-							}}
-						></Form.Control>
-					</FloatingLabel>
-					<Button
-						type="submit"
+				{user ? (
+					<Form
 						className="my-2"
-						ref={target}
+						style={{ height: "10rem" }}
+						onSubmit={(e) => {
+							e.preventDefault();
+							handleCommentPost(articleId, user.username, userComment);
+							setPostedComment(userComment);
+							setTempComment(true);
+						}}
 					>
-						Submit
-					</Button>
-				</Form>
+						<FloatingLabel
+							style={{ height: "7rem" }}
+							controlId="commentInput"
+							label="Write a comment here"
+						>
+							<Form.Control
+								style={{ height: "100%", width: "100%" }}
+								type="text"
+								value={userComment}
+								onChange={(e) => {
+									setUserComment(e.target.value);
+								}}
+							></Form.Control>
+						</FloatingLabel>
+						<Button
+							type="submit"
+							className="my-2"
+							ref={target}
+						>
+							Submit
+						</Button>
+					</Form>
+				) : null}
 
 				<Overlay
 					target={target.current}
