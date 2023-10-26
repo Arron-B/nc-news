@@ -9,10 +9,14 @@ export function fetchAllTopics() {
 }
 
 export function fetchAllArticles(searchParams) {
-	console.log(searchParams);
-	return axios.get(`${domainName}/api/articles${searchParams}`).then((res) => {
-		return res;
-	});
+	const { sort_by } = searchParams;
+	const { order } = searchParams;
+	console.log("In api function: " + sort_by + " " + order);
+	return axios
+		.get(`${domainName}/api/articles?sort_by=${sort_by}&order=${order}`)
+		.then((res) => {
+			return res;
+		});
 }
 
 export function fetchArticlesByTopic(topic) {

@@ -4,22 +4,19 @@ import { fetchAllArticles } from "../api";
 import { Link, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 import SortArticles from "./SortArticles.jsx";
-import { handleQueryString } from "../utils/utils";
 
 function Home() {
 	let [searchParams, setSearchParams] = useSearchParams();
 	const [displayArticles, setDisplayArticles] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [order, setOrder] = useState(searchParams.get("order") || "desc");
-	const [sortBy, setSortBy] = useState(
-		searchParams.get("sort_by") || "created_at"
-	);
+	const [order, setOrder] = useState("desc");
+	const [sortBy, setSortBy] = useState("created_at");
 
 	useEffect(() => {
 		console.log("fetching all articles");
+		const currentParams = Object.fromEntries([...searchParams]);
 		setSearchParams({ sort_by: sortBy, order: order });
-		const queryString = handleQueryString(searchParams);
-		fetchAllArticles(queryString)
+		fetchAllArticles(currentParams)
 			.then((res) => {
 				setDisplayArticles(res.data.articles);
 				setIsLoading(false);
@@ -27,7 +24,7 @@ function Home() {
 			.catch((err) => {
 				console.log(err.response.data.msg);
 			});
-	}, [searchParams]);
+	}, [searchParams, order, sortBy]);
 
 	if (!isLoading) {
 		return (
