@@ -1,14 +1,8 @@
 import { Dropdown, Form } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import { handleQueryString } from "../utils/utils";
+import { handleAscDesc } from "../utils/utils";
 
-function SortArticles({
-	order,
-	setOrder,
-	searchParams,
-	queryString,
-	setQueryString,
-}) {
+function SortArticles({ order, setOrder, queryString, setQueryString }) {
 	return (
 		<>
 			<Dropdown>
@@ -42,45 +36,7 @@ function SortArticles({
 				id="asc-desc"
 				label={order === "asc" ? "Desc" : "Asc"}
 				onChange={() => {
-					const params = queryString;
-					if (params.length === 0) {
-						setQueryString(queryString + "?order=" + order);
-					}
-					if (params.length > 0 && !params.includes("order")) {
-						setQueryString(queryString + "&order=" + order);
-					}
-					if (
-						params.length > 0 &&
-						params.includes("order") &&
-						params.includes("sort_by")
-					) {
-						const paramsArr = params.split("&");
-						const newParams = paramsArr.map((section) => {
-							if (section.includes("order" && "desc")) {
-								return "order=asc";
-							}
-							if (section.includes("order" && "asc")) {
-								return "order=desc";
-							}
-							return section;
-						});
-						console.log(newParams.join("&"));
-						setQueryString(newParams.join("&"));
-					}
-					if (
-						params.length > 0 &&
-						params.includes("order") &&
-						!params.includes("sort_by")
-					) {
-						if (params.includes("asc")) setQueryString("?order=desc");
-
-						if (params.includes("desc")) setQueryString("?order=asc");
-					}
-					if (order === "desc") {
-						setOrder("asc");
-					} else {
-						setOrder("desc");
-					}
+					handleAscDesc(queryString, setQueryString, order, setOrder);
 				}}
 			/>
 		</>

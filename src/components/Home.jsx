@@ -30,7 +30,6 @@ function Home() {
 				<SortArticles
 					order={order}
 					setOrder={setOrder}
-					searchParams={searchParams}
 					queryString={queryString}
 					setQueryString={setQueryString}
 				/>
