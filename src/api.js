@@ -8,8 +8,8 @@ export function fetchAllTopics() {
 	});
 }
 
-export function fetchAllArticles() {
-	return axios.get(`${domainName}/api/articles`).then((res) => {
+export function fetchAllArticles(queryString) {
+	return axios.get(`${domainName}/api/articles${queryString}`).then((res) => {
 		return res;
 	});
 }
