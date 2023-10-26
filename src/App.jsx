@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import NewsNav from "./components/NewsNav";
 import Home from "./components/Home";
@@ -10,13 +10,24 @@ import { Routes, Route } from "react-router-dom";
 function App() {
 	const [user, setUser] = useState("");
 
+	useEffect(() => {
+		window.localStorage.setItem("SelectedUser", JSON.stringify(user));
+	}, [user]);
+
+	useEffect(() => {
+		setUser(JSON.parse(window.localStorage.getItem("SelectedUser")));
+	}, []);
+
 	function handleLogin(selectedUser) {
 		setUser(selectedUser);
 	}
 
 	return (
 		<>
-			<UserLogin handleLogin={handleLogin} />
+			<UserLogin
+				user={user}
+				handleLogin={handleLogin}
+			/>
 			<NewsNav user={user} />
 			<Routes>
 				<Route

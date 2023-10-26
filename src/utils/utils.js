@@ -6,7 +6,7 @@ export function handleQueryString(searchParams) {
 	const params = {};
 	let paramCount = 0;
 	if (searchParams.get("sort_by")) {
-		params.sortBy = searchParams.get("sort_by");
+		params.sort_by = searchParams.get("sort_by");
 		paramCount++;
 	}
 	if (searchParams.get("order")) {
@@ -14,17 +14,27 @@ export function handleQueryString(searchParams) {
 		paramCount++;
 	}
 
+	if (searchParams.get("topic")) {
+		params.topic = searchParams.get("topic");
+		paramCount++;
+	}
+
 	if (paramCount === 0) return "";
 
-	if (paramCount === 2) {
-		return `?sort_by=${params.sortBy}&order=${params.order}`;
+	if (paramCount > 0) {
+		let buildString = "?";
+		for (const key in params) {
+			if (paramCount > 0) {
+				buildString += `${key}=${params[key]}`;
+				paramCount > 1 ? (buildString += "&") : null;
+				paramCount--;
+			}
+			return buildString;
+		}
 	}
-	if (paramCount === 1 && params.sortBy) return `?sort_by=${params.sortBy}`;
-
-	if (paramCount === 1 && params.order) return `?order=${params.order}`;
 }
 
-export function handleAscDesc(queryString, setQueryString, order, setOrder) {
+export function handleAscDesc(order, setOrder) {
 	const params = queryString;
 	if (params.length === 0) {
 		setQueryString(queryString + "?order=" + order);

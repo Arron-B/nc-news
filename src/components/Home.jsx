@@ -7,22 +7,27 @@ import SortArticles from "./SortArticles.jsx";
 import { handleQueryString } from "../utils/utils";
 
 function Home() {
+	let [searchParams, setSearchParams] = useSearchParams();
 	const [displayArticles, setDisplayArticles] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [order, setOrder] = useState("asc");
-	let [searchParams, setSearchParams] = useSearchParams();
-	const [queryString, setQueryString] = useState(
-		handleQueryString(searchParams)
+	const [order, setOrder] = useState(searchParams.get("order") || "desc");
+	const [sortBy, setSortBy] = useState(
+		searchParams.get("sort_by") || "created_at"
 	);
 
 	useEffect(() => {
-		console.log(queryString);
 		console.log("fetching all articles");
-		fetchAllArticles(queryString).then((res) => {
-			setDisplayArticles(res.data.articles);
-			setIsLoading(false);
-		});
-	}, [searchParams, queryString]);
+		setSearchParams({ sort_by: sortBy, order: order });
+		const queryString = handleQueryString(searchParams);
+		fetchAllArticles(queryString)
+			.then((res) => {
+				setDisplayArticles(res.data.articles);
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err.response.data.msg);
+			});
+	}, [searchParams]);
 
 	if (!isLoading) {
 		return (
@@ -30,8 +35,8 @@ function Home() {
 				<SortArticles
 					order={order}
 					setOrder={setOrder}
-					queryString={queryString}
-					setQueryString={setQueryString}
+					setSearchParams={setSearchParams}
+					searchParams={searchParams}
 				/>
 				{displayArticles.map((thisCard) => {
 					return (

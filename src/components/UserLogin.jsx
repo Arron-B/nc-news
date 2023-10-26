@@ -3,8 +3,8 @@ import { fetchAllUsers } from "../api";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
-function UserLogin({ handleLogin }) {
-	const [show, setShow] = useState(true);
+function UserLogin({ handleLogin, user }) {
+	const [show, setShow] = useState(user ? false : true);
 	const [users, setUsers] = useState("");
 
 	useEffect(() => {
