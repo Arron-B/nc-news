@@ -1,6 +1,7 @@
 import { Card, Form, FloatingLabel, Button, Overlay } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
-import { fetchCommentsByArticleId, postComment } from "../api";
+import { fetchCommentsByArticleId, postComment, deleteComment } from "../api";
+import { removeDeletedComment } from "../utils/utils";
 import Loading from "./Loading";
 
 function Comments({ articleId, user }) {
@@ -11,6 +12,8 @@ function Comments({ articleId, user }) {
 	const [commentFail, setCommentFail] = useState(false);
 	const [errMsg, setErrMsg] = useState("");
 	const [postedComment, setPostedComment] = useState(false);
+	const [refresh, setRefresh] = useState(false);
+	const [tempComment, setTempComment] = useState(false);
 
 	useEffect(() => {
 		fetchCommentsByArticleId(articleId)
@@ -20,7 +23,7 @@ function Comments({ articleId, user }) {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	}, [refresh]);
 
 	function handleCommentPost(articleId, username, comment) {
 		postComment(articleId, username, comment)
@@ -29,7 +32,8 @@ function Comments({ articleId, user }) {
 					setPostedComment(userComment);
 					setUserComment("");
 					setCommentSuccess(true);
-
+					setTempComment(false);
+					setRefresh(!refresh);
 					setTimeout(() => {
 						setCommentSuccess(false);
 					}, 5000);
@@ -45,12 +49,24 @@ function Comments({ articleId, user }) {
 	}
 
 	function ShowPostedComment() {
-		return (
-			<Card key={`comment-new`}>
-				<p>{user.username}</p>
-				<Card.Body>{postedComment}</Card.Body>
-			</Card>
-		);
+		{
+			return tempComment ? (
+				<Card key={`comment-new`}>
+					<p>{user.username}</p>
+					<Card.Body className="mx-auto">{postedComment}</Card.Body>
+					<Loading />
+				</Card>
+			) : null;
+		}
+	}
+
+	function handleDeleteComment(id) {
+		deleteComment(id).then((res) => {
+			if (res.status === 204) {
+				const updateComments = [...comments];
+				setComments(removeDeletedComment(updateComments, id));
+			}
+		});
 	}
 
 	if (comments) {
@@ -65,6 +81,8 @@ function Comments({ articleId, user }) {
 					onSubmit={(e) => {
 						e.preventDefault();
 						handleCommentPost(articleId, user.username, userComment);
+						setPostedComment(userComment);
+						setTempComment(true);
 					}}
 				>
 					<FloatingLabel
@@ -93,7 +111,7 @@ function Comments({ articleId, user }) {
 				<Overlay
 					target={target.current}
 					show={commentSuccess}
-					placement="bottom"
+					placement="top"
 				>
 					{({
 						placement: _placement,
@@ -121,7 +139,7 @@ function Comments({ articleId, user }) {
 				<Overlay
 					target={target.current}
 					show={commentFail}
-					placement="bottom"
+					placement="top"
 				>
 					{({
 						placement: _placement,
@@ -146,12 +164,23 @@ function Comments({ articleId, user }) {
 						</div>
 					)}
 				</Overlay>
-				{postedComment ? <ShowPostedComment /> : null}
+				{tempComment ? <ShowPostedComment /> : null}
 				{comments.map((comment) => {
 					return (
 						<Card key={`comment${comment.comment_id}`}>
 							<p>{comment.author}</p>
-							<Card.Body>{comment.body}</Card.Body>
+							<Card.Body className="mx-auto">{comment.body}</Card.Body>
+							{comment.author === user.username ? (
+								<Button
+									onClick={() => {
+										handleDeleteComment(comment.comment_id);
+									}}
+									variant="danger"
+									className="w-25 mx-auto"
+								>
+									Delete
+								</Button>
+							) : null}
 						</Card>
 					);
 				})}
