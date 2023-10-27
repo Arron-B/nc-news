@@ -2,6 +2,10 @@ export function capitaliseFirstLetter(str) {
 	return str.slice(0, 1).toUpperCase() + str.slice(1);
 }
 
+export function removeDeletedComment(comments, commentId) {
+	return comments.filter((comment) => comment.comment_id !== commentId);
+}
+
 export function handleQueryString(searchParams) {
 	const params = {};
 	let paramCount = 0;

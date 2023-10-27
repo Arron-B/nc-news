@@ -71,90 +71,92 @@ function Article({ user }) {
 				/>
 				<p>{article.body}</p>
 				<p>Votes: {votes}</p>
-				<Container>
-					<Button
-						className="w-50"
-						variant="light"
-						size="sm"
-						disabled={votesDisabled}
-						ref={target}
-						onClick={(e) => {
-							e.preventDefault();
-							handleVote(1);
-						}}
-					>
-						Vote Up
-					</Button>
-					<Button
-						className="w-50"
-						variant="light"
-						size="sm"
-						disabled={votesDisabled}
-						ref={target}
-						onClick={(e) => {
-							e.preventDefault();
-							handleVote(-1);
-						}}
-					>
-						Vote Down
-					</Button>
-					<Overlay
-						target={target.current}
-						show={voteSuccess}
-						placement="top"
-					>
-						{({
-							placement: _placement,
-							arrowProps: _arrowProps,
-							show: _show,
-							popper: _popper,
-							hasDoneInitialMeasure: _hasDoneInitialMeasure,
-							...props
-						}) => (
-							<div
-								{...props}
-								style={{
-									position: "absolute",
-									backgroundColor: "rgba(28, 184, 28, 0.85)",
-									padding: "2px 10px",
-									color: "white",
-									borderRadius: 3,
-									...props.style,
-								}}
-							>
-								Vote Successful!
-							</div>
-						)}
-					</Overlay>
-					<Overlay
-						target={target.current}
-						show={voteFail}
-						placement="top"
-					>
-						{({
-							placement: _placement,
-							arrowProps: _arrowProps,
-							show: _show,
-							popper: _popper,
-							hasDoneInitialMeasure: _hasDoneInitialMeasure,
-							...props
-						}) => (
-							<div
-								{...props}
-								style={{
-									position: "absolute",
-									backgroundColor: "rgba(184, 28, 28, 0.85)",
-									padding: "2px 10px",
-									color: "white",
-									borderRadius: 3,
-									...props.style,
-								}}
-							>
-								{errMsg}
-							</div>
-						)}
-					</Overlay>
-				</Container>
+				{user ? (
+					<Container>
+						<Button
+							className="w-50"
+							variant="light"
+							size="sm"
+							disabled={votesDisabled}
+							ref={target}
+							onClick={(e) => {
+								e.preventDefault();
+								handleVote(1);
+							}}
+						>
+							Vote Up
+						</Button>
+						<Button
+							className="w-50"
+							variant="light"
+							size="sm"
+							disabled={votesDisabled}
+							ref={target}
+							onClick={(e) => {
+								e.preventDefault();
+								handleVote(-1);
+							}}
+						>
+							Vote Down
+						</Button>
+						<Overlay
+							target={target.current}
+							show={voteSuccess}
+							placement="top"
+						>
+							{({
+								placement: _placement,
+								arrowProps: _arrowProps,
+								show: _show,
+								popper: _popper,
+								hasDoneInitialMeasure: _hasDoneInitialMeasure,
+								...props
+							}) => (
+								<div
+									{...props}
+									style={{
+										position: "absolute",
+										backgroundColor: "rgba(28, 184, 28, 0.85)",
+										padding: "2px 10px",
+										color: "white",
+										borderRadius: 3,
+										...props.style,
+									}}
+								>
+									Vote Successful!
+								</div>
+							)}
+						</Overlay>
+						<Overlay
+							target={target.current}
+							show={voteFail}
+							placement="top"
+						>
+							{({
+								placement: _placement,
+								arrowProps: _arrowProps,
+								show: _show,
+								popper: _popper,
+								hasDoneInitialMeasure: _hasDoneInitialMeasure,
+								...props
+							}) => (
+								<div
+									{...props}
+									style={{
+										position: "absolute",
+										backgroundColor: "rgba(184, 28, 28, 0.85)",
+										padding: "2px 10px",
+										color: "white",
+										borderRadius: 3,
+										...props.style,
+									}}
+								>
+									{errMsg}
+								</div>
+							)}
+						</Overlay>
+					</Container>
+				) : null}
 				<Button
 					aria-label="show/hide comments button"
 					id="comments-button"

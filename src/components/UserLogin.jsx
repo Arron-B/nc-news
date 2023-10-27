@@ -3,8 +3,7 @@ import { fetchAllUsers } from "../api";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
-function UserLogin({ handleLogin, user }) {
-	const [show, setShow] = useState(user ? false : true);
+function UserLogin({ handleLogin, showAccounts, setShowAccounts, user }) {
 	const [users, setUsers] = useState("");
 
 	useEffect(() => {
@@ -13,10 +12,10 @@ function UserLogin({ handleLogin, user }) {
 		});
 	}, []);
 
-	if (show === true && users) {
+	if (showAccounts === true && users) {
 		return (
 			<Modal
-				show={show}
+				show={showAccounts}
 				backdrop="static"
 				keyboard={false}
 			>
@@ -37,7 +36,7 @@ function UserLogin({ handleLogin, user }) {
 								variant="primary"
 								onClick={() => {
 									handleLogin(user);
-									setShow(false);
+									setShowAccounts(false);
 								}}
 							>
 								Sign in
@@ -47,7 +46,7 @@ function UserLogin({ handleLogin, user }) {
 				})}
 			</Modal>
 		);
-	} else if (show === true && !users) {
+	} else if (showAccounts === true && !users) {
 		return (
 			<>
 				<div className="await-accounts d-flex justify-content-center align-items-center">

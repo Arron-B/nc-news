@@ -5,10 +5,12 @@ import Home from "./components/Home";
 import Article from "./components/Article";
 import Topic from "./components/Topic";
 import UserLogin from "./components/UserLogin";
+import LoginButton from "./components/LoginButton";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
 	const [user, setUser] = useState("");
+	const [showAccounts, setShowAccounts] = useState(false);
 	const [freshHome, setFreshHome] = useState(false);
 
 	useEffect(() => {
@@ -26,11 +28,15 @@ function App() {
 	return (
 		<>
 			<UserLogin
-				user={user}
 				handleLogin={handleLogin}
+				user={user}
+				showAccounts={showAccounts}
+				setShowAccounts={setShowAccounts}
 			/>
 			<NewsNav
 				user={user}
+				LoginButton={LoginButton}
+				setShowAccounts={setShowAccounts}
 				setFreshHome={setFreshHome}
 				freshHome={freshHome}
 			/>

@@ -68,3 +68,9 @@ export function postComment(articleId, username, body) {
 			return res;
 		});
 }
+
+export function deleteComment(commentId) {
+	return axios.delete(`${domainName}/api/comments/${commentId}`).then((res) => {
+		return res;
+	});
+}

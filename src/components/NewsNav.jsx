@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import { fetchAllTopics } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
 
-function NewsNav({ user, setFreshHome, freshHome }) {
+function NewsNav({
+	user,
+	LoginButton,
+	setShowAccounts,
+	setFreshHome,
+	freshHome,
+}) {
 	const [show, setShow] = useState(false);
 	const [topics, setTopics] = useState([]);
 
@@ -81,12 +87,16 @@ function NewsNav({ user, setFreshHome, freshHome }) {
 					>
 						<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
 					</Link>
-					<Image
-						className="w-25 img-fluid"
-						alt="Your user avatar image"
-						src={user.avatar_url}
-						roundedCircle
-					></Image>
+					{user ? (
+						<Image
+							className="w-25 img-fluid"
+							alt="Your user avatar image"
+							src={user.avatar_url}
+							roundedCircle
+						></Image>
+					) : (
+						<LoginButton setShowAccounts={setShowAccounts} />
+					)}
 				</Navbar>
 			</>
 		);
