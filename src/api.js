@@ -8,21 +8,26 @@ export function fetchAllTopics() {
 	});
 }
 
-export function fetchAllArticles(searchParams) {
-	const { sort_by } = searchParams;
-	const { order } = searchParams;
-	console.log("In api function: " + sort_by + " " + order);
-	return axios
-		.get(`${domainName}/api/articles?sort_by=${sort_by}&order=${order}`)
-		.then((res) => {
-			return res;
-		});
-}
+export function fetchAllArticles(params) {
+	const sort_by = params.sortBy;
+	const { order } = params;
 
-export function fetchArticlesByTopic(topic) {
-	return axios.get(`${domainName}/api/articles?topic=${topic}`).then((res) => {
-		return res;
-	});
+	if (params.topic) {
+		const { topic } = params;
+		return axios
+			.get(
+				`${domainName}/api/articles?sort_by=${sort_by}&order=${order}&topic=${topic}`
+			)
+			.then((res) => {
+				return res;
+			});
+	} else {
+		return axios
+			.get(`${domainName}/api/articles?sort_by=${sort_by}&order=${order}`)
+			.then((res) => {
+				return res;
+			});
+	}
 }
 
 export function fetchArticleById(id) {

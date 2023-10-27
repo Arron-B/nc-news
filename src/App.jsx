@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
 	const [user, setUser] = useState("");
+	const [freshHome, setFreshHome] = useState(false);
 
 	useEffect(() => {
 		window.localStorage.setItem("SelectedUser", JSON.stringify(user));
@@ -28,11 +29,29 @@ function App() {
 				user={user}
 				handleLogin={handleLogin}
 			/>
-			<NewsNav user={user} />
+			<NewsNav
+				user={user}
+				setFreshHome={setFreshHome}
+				freshHome={freshHome}
+			/>
 			<Routes>
 				<Route
 					path="/"
-					element={<Home />}
+					element={
+						<Home
+							freshHome={freshHome}
+							setFreshHome={setFreshHome}
+						/>
+					}
+				/>
+				<Route
+					path="/home"
+					element={
+						<Home
+							freshHome={freshHome}
+							setFreshHome={setFreshHome}
+						/>
+					}
 				/>
 				<Route
 					path="/articles/:article_id"
@@ -40,7 +59,7 @@ function App() {
 				/>
 				<Route
 					path="/articles"
-					element={<Topic />}
+					element={<Topic freshHome={freshHome} />}
 				/>
 			</Routes>
 		</>

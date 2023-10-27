@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { fetchAllTopics } from "../api";
 import { capitaliseFirstLetter } from "../utils/utils";
 
-function NewsNav({ user }) {
+function NewsNav({ user, setFreshHome, freshHome }) {
 	const [show, setShow] = useState(false);
 	const [topics, setTopics] = useState([]);
 
@@ -48,6 +48,7 @@ function NewsNav({ user }) {
 						<Link
 							onClick={() => {
 								setShow(!show);
+								setFreshHome(!freshHome);
 							}}
 							to="/articles"
 							key="link-all-articles"
@@ -74,6 +75,9 @@ function NewsNav({ user }) {
 					<Link
 						className="mx-auto"
 						to="/"
+						onClick={() => {
+							setFreshHome(!freshHome);
+						}}
 					>
 						<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
 					</Link>
