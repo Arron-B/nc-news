@@ -33,74 +33,73 @@ function NewsNav({
 	function toggleShow() {
 		setShow(!show);
 	}
-	if (user) {
-		return (
-			<>
-				<Navbar>
-					<Button
-						variant="secondary"
-						onClick={toggleShow}
-						size="sm"
-					>
-						Topics
-					</Button>
-					<Offcanvas
-						show={show}
-						onHide={handleClose}
-					>
-						<Offcanvas.Header closeButton>
-							<Offcanvas.Title>Show articles for:</Offcanvas.Title>
-						</Offcanvas.Header>
-						<Link
-							onClick={() => {
-								setShow(!show);
-								setFreshHome(!freshHome);
-							}}
-							to="/articles"
-							key="link-all-articles"
-						>
-							All Articles
-						</Link>
-						{topics.map((thisTopic) => {
-							return (
-								<Link
-									onClick={() => {
-										setShow(!show);
-									}}
-									to={{
-										pathname: "/articles",
-										search: `?topic=${thisTopic}`,
-									}}
-									key={`link-to-${thisTopic}`}
-								>
-									{capitaliseFirstLetter(thisTopic)}
-								</Link>
-							);
-						})}
-					</Offcanvas>
+
+	return (
+		<>
+			<Navbar>
+				<Button
+					variant="secondary"
+					onClick={toggleShow}
+					size="sm"
+				>
+					Topics
+				</Button>
+				<Offcanvas
+					show={show}
+					onHide={handleClose}
+				>
+					<Offcanvas.Header closeButton>
+						<Offcanvas.Title>Show articles for:</Offcanvas.Title>
+					</Offcanvas.Header>
 					<Link
-						className="mx-auto"
-						to="/"
 						onClick={() => {
+							setShow(!show);
 							setFreshHome(!freshHome);
 						}}
+						to="/articles"
+						key="link-all-articles"
 					>
-						<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
+						All Articles
 					</Link>
-					{user ? (
-						<Image
-							className="w-25 img-fluid"
-							alt="Your user avatar image"
-							src={user.avatar_url}
-							roundedCircle
-						></Image>
-					) : (
-						<LoginButton setShowAccounts={setShowAccounts} />
-					)}
-				</Navbar>
-			</>
-		);
-	}
+					{topics.map((thisTopic) => {
+						return (
+							<Link
+								onClick={() => {
+									setShow(!show);
+								}}
+								to={{
+									pathname: "/articles",
+									search: `?topic=${thisTopic}`,
+								}}
+								key={`link-to-${thisTopic}`}
+							>
+								{capitaliseFirstLetter(thisTopic)}
+							</Link>
+						);
+					})}
+				</Offcanvas>
+				<Link
+					className="mx-auto"
+					to="/"
+					onClick={() => {
+						setFreshHome(!freshHome);
+					}}
+				>
+					<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
+				</Link>
+				{user ? (
+					<Image
+						className="w-25 img-fluid"
+						alt="Your user avatar image"
+						src={user.avatar_url}
+						roundedCircle
+					></Image>
+				) : (
+					<LoginButton setShowAccounts={setShowAccounts} />
+				)}
+			</Navbar>
+		</>
+	);
 }
 
 export default NewsNav;
