@@ -1,7 +1,14 @@
+body {
+	height: 100vh;
+	height: 100dvh;
+}
+
 #root {
 	margin: 0;
-	padding: 0;
+	padding: 1rem;
 	text-align: center;
+	height: 100vh;
+	height: 100dvh;
 }
 
 a {

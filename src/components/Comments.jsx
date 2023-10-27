@@ -7,6 +7,7 @@ import Loading from "./Loading";
 function Comments({ articleId, user }) {
 	const [comments, setComments] = useState(false);
 	const target = useRef(null);
+	const deleteRef = useRef([]);
 	const [userComment, setUserComment] = useState("");
 	const [commentSuccess, setCommentSuccess] = useState(false);
 	const [commentFail, setCommentFail] = useState(false);
@@ -14,6 +15,12 @@ function Comments({ articleId, user }) {
 	const [postedComment, setPostedComment] = useState(false);
 	const [refresh, setRefresh] = useState(false);
 	const [tempComment, setTempComment] = useState(false);
+	const [deleteFail, setDeleteFail] = useState("");
+	const [inactiveButtons, setInactiveButtons] = useState([]);
+
+	useEffect(() => {
+		deleteRef.current = deleteRef.current.slice(0, comments.length);
+	}, [comments]);
 
 	useEffect(() => {
 		fetchCommentsByArticleId(articleId)
@@ -26,6 +33,7 @@ function Comments({ articleId, user }) {
 	}, [refresh]);
 
 	function handleCommentPost(articleId, username, comment) {
+		setInactiveButtons([...inactiveButtons, "submit"]);
 		postComment(articleId, username, comment)
 			.then((res) => {
 				if (res.status === 201) {
@@ -36,14 +44,22 @@ function Comments({ articleId, user }) {
 					setRefresh(!refresh);
 					setTimeout(() => {
 						setCommentSuccess(false);
+						const newInactiveButtons = [...inactiveButtons];
+						newInactiveButtons.splice(newInactiveButtons.indexOf("show"), 1);
+						setInactiveButtons(newInactiveButtons);
 					}, 5000);
 				}
 			})
 			.catch((err) => {
-				setErrMsg(err.message);
+				console.log(err);
+				setErrMsg("Failed to post comment");
 				setCommentFail(true);
+				setTempComment(false);
 				setTimeout(() => {
 					setCommentFail(false);
+					const newInactiveButtons = [...inactiveButtons];
+					newInactiveButtons.splice(newInactiveButtons.indexOf("show"), 1);
+					setInactiveButtons(newInactiveButtons);
 				}, 5000);
 			});
 	}
@@ -60,13 +76,37 @@ function Comments({ articleId, user }) {
 		}
 	}
 
-	function handleDeleteComment(id) {
-		deleteComment(id).then((res) => {
-			if (res.status === 204) {
-				const updateComments = [...comments];
-				setComments(removeDeletedComment(updateComments, id));
-			}
-		});
+	function handleDeleteComment(id, deleteButtonRef) {
+		setInactiveButtons([...inactiveButtons, deleteButtonRef]);
+		deleteComment(id)
+			.then((res) => {
+				setTimeout(() => {
+					const newInactiveButtons = [...inactiveButtons];
+					newInactiveButtons.splice(
+						newInactiveButtons.indexOf(deleteButtonRef),
+						1
+					);
+					setInactiveButtons(newInactiveButtons);
+				}, 3000);
+				if (res.status === 204) {
+					const updateComments = [...comments];
+					setComments(removeDeletedComment(updateComments, id));
+				}
+			})
+			.catch((err) => {
+				setTimeout(() => {
+					const newInactiveButtons = [...inactiveButtons];
+					newInactiveButtons.splice(
+						newInactiveButtons.indexOf(deleteButtonRef),
+						1
+					);
+					setInactiveButtons(newInactiveButtons);
+				}, 3000);
+				setDeleteFail(deleteButtonRef);
+				setTimeout(() => {
+					setDeleteFail(false);
+				}, 3000);
+			});
 	}
 
 	if (comments) {
@@ -104,6 +144,7 @@ function Comments({ articleId, user }) {
 							type="submit"
 							className="my-2"
 							ref={target}
+							disabled={inactiveButtons.includes("submit")}
 						>
 							Submit
 						</Button>
@@ -167,7 +208,7 @@ function Comments({ articleId, user }) {
 					)}
 				</Overlay>
 				{tempComment ? <ShowPostedComment /> : null}
-				{comments.map((comment) => {
+				{comments.map((comment, i) => {
 					return (
 						<Card key={`comment${comment.comment_id}`}>
 							<p>{comment.author}</p>
@@ -175,14 +216,44 @@ function Comments({ articleId, user }) {
 							{comment.author === user.username ? (
 								<Button
 									onClick={() => {
-										handleDeleteComment(comment.comment_id);
+										handleDeleteComment(comment.comment_id, i);
 									}}
+									ref={(el) => (deleteRef.current[i] = el)}
+									disabled={inactiveButtons.includes(i)}
 									variant="danger"
 									className="w-25 mx-auto"
 								>
 									Delete
 								</Button>
 							) : null}
+							<Overlay
+								target={deleteRef.current[i]}
+								show={deleteFail === i}
+								placement="top"
+							>
+								{({
+									placement: _placement,
+									arrowProps: _arrowProps,
+									show: _show,
+									popper: _popper,
+									hasDoneInitialMeasure: _hasDoneInitialMeasure,
+									...props
+								}) => (
+									<div
+										{...props}
+										style={{
+											position: "absolute",
+											backgroundColor: "rgba(184, 28, 28, 0.85)",
+											padding: "2px 10px",
+											color: "white",
+											borderRadius: 3,
+											...props.style,
+										}}
+									>
+										Failed to delete comment
+									</div>
+								)}
+							</Overlay>
 						</Card>
 					);
 				})}

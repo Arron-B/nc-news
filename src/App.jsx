@@ -6,6 +6,7 @@ import Article from "./components/Article";
 import Topic from "./components/Topic";
 import UserLogin from "./components/UserLogin";
 import LoginButton from "./components/LoginButton";
+import BadPath from "./components/BadPath";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
 				<Route
 					path="/articles"
 					element={<Topic freshHome={freshHome} />}
+				/>
+				<Route
+					path="*"
+					element={<BadPath />}
 				/>
 			</Routes>
 		</>
