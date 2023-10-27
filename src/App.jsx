@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import NewsNav from "./components/NewsNav";
 import Home from "./components/Home";
@@ -11,6 +11,15 @@ import { Routes, Route } from "react-router-dom";
 function App() {
 	const [user, setUser] = useState("");
 	const [showAccounts, setShowAccounts] = useState(false);
+	const [freshHome, setFreshHome] = useState(false);
+
+	useEffect(() => {
+		window.localStorage.setItem("SelectedUser", JSON.stringify(user));
+	}, [user]);
+
+	useEffect(() => {
+		setUser(JSON.parse(window.localStorage.getItem("SelectedUser")));
+	}, []);
 
 	function handleLogin(selectedUser) {
 		setUser(selectedUser);
@@ -28,11 +37,27 @@ function App() {
 				user={user}
 				LoginButton={LoginButton}
 				setShowAccounts={setShowAccounts}
+				setFreshHome={setFreshHome}
+				freshHome={freshHome}
 			/>
 			<Routes>
 				<Route
 					path="/"
-					element={<Home />}
+					element={
+						<Home
+							freshHome={freshHome}
+							setFreshHome={setFreshHome}
+						/>
+					}
+				/>
+				<Route
+					path="/home"
+					element={
+						<Home
+							freshHome={freshHome}
+							setFreshHome={setFreshHome}
+						/>
+					}
 				/>
 				<Route
 					path="/articles/:article_id"
@@ -40,7 +65,7 @@ function App() {
 				/>
 				<Route
 					path="/articles"
-					element={<Topic />}
+					element={<Topic freshHome={freshHome} />}
 				/>
 			</Routes>
 		</>
