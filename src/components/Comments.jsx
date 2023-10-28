@@ -1,6 +1,11 @@
 import { Card, Form, FloatingLabel, Button, Overlay } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
-import { fetchCommentsByArticleId, postComment, deleteComment } from "../api";
+import {
+	fetchCommentsByArticleId,
+	postComment,
+	deleteComment,
+	fetchAllUsers,
+} from "../api";
 import { removeDeletedComment } from "../utils/utils";
 import Loading from "./Loading";
 
@@ -17,6 +22,13 @@ function Comments({ articleId, user }) {
 	const [tempComment, setTempComment] = useState(false);
 	const [deleteFail, setDeleteFail] = useState("");
 	const [inactiveButtons, setInactiveButtons] = useState([]);
+	const [users, setUsers] = useState("");
+
+	useEffect(() => {
+		fetchAllUsers().then((res) => {
+			setUsers(res.data.users);
+		});
+	}, []);
 
 	useEffect(() => {
 		deleteRef.current = deleteRef.current.slice(0, comments.length);
@@ -26,6 +38,7 @@ function Comments({ articleId, user }) {
 		fetchCommentsByArticleId(articleId)
 			.then((res) => {
 				setComments(res.data.comments);
+				setTempComment(false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -40,7 +53,6 @@ function Comments({ articleId, user }) {
 					setPostedComment(userComment);
 					setUserComment("");
 					setCommentSuccess(true);
-					setTempComment(false);
 					setRefresh(!refresh);
 					setTimeout(() => {
 						setCommentSuccess(false);
@@ -67,8 +79,19 @@ function Comments({ articleId, user }) {
 	function ShowPostedComment() {
 		{
 			return tempComment ? (
-				<Card key={`comment-new`}>
-					<p>{user.username}</p>
+				<Card
+					className="py-1"
+					key={`comment-new`}
+				>
+					<div className="d-flex justify-content-center align-items-center gap-1">
+						<Card.Img
+							className="object-fit-scale comment-img"
+							variant="top"
+							src={user.avatar_url}
+						/>
+						<p>{user.username}</p>
+					</div>
+
 					<Card.Body className="mx-auto">{postedComment}</Card.Body>
 					<Loading />
 				</Card>
@@ -210,8 +233,22 @@ function Comments({ articleId, user }) {
 				{tempComment ? <ShowPostedComment /> : null}
 				{comments.map((comment, i) => {
 					return (
-						<Card key={`comment${comment.comment_id}`}>
-							<p>{comment.author}</p>
+						<Card
+							className="py-1"
+							key={`comment${comment.comment_id}`}
+						>
+							<div className="d-flex justify-content-center align-items-center gap-1">
+								<Card.Img
+									className="object-fit-scale comment-img"
+									variant="top"
+									src={
+										users.filter((user) => user.username === comment.author)[0]
+											.avatar_url
+									}
+								/>
+								<p>{comment.author}</p>
+							</div>
+
 							<Card.Body className="mx-auto">{comment.body}</Card.Body>
 							{comment.author === user.username ? (
 								<Button
