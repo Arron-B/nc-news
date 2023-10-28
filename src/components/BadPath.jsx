@@ -3,7 +3,7 @@ import { Image } from "react-bootstrap";
 function BadPath() {
 	return (
 		<>
-			<main className="h-100 d-flex flex-column align-items-center justify-content-center">
+			<main className="h-75 d-flex flex-column align-items-center justify-content-center">
 				<h1>You shall not path!...</h1>
 				<h1>to this extension.</h1>
 				<Image

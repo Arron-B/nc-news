@@ -12,6 +12,7 @@ import {
 import { capitaliseFirstLetter } from "../utils/utils";
 import Comments from "./Comments";
 import Loading from "./Loading";
+import BadAritcleRequest from "./BadAritcleRequest";
 
 function Article({ user }) {
 	const { article_id } = useParams();
@@ -23,22 +24,29 @@ function Article({ user }) {
 
 	const [voteFail, setVoteFail] = useState(false);
 	const [voteSuccess, setVoteSuccess] = useState(false);
-	const [errMsg, setErrMsg] = useState("Something went wrong!");
+	const [voteErrMsg, setVoteErrMsg] = useState("Something went wrong!");
+	const [errMsg, setErrMsg] = useState(""); //error for bad article
 	const [votesDisabled, setVotesDisabled] = useState(false);
 	const [showComments, setShowComments] = useState(false);
 
 	useEffect(() => {
-		fetchArticleById(article_id).then((res) => {
-			setArticle(res.data.article);
-			setVotes(res.data.article.votes);
-		});
+		fetchArticleById(article_id)
+			.then((res) => {
+				setArticle(res.data.article);
+				setVotes(res.data.article.votes);
+			})
+			.catch((err) => {
+				console.log(err);
+				setErrMsg(err.response.data.msg);
+			});
 	}, []);
 
 	function handleVote(increment) {
-		setVotes(votes + increment);
+		const currentVotes = votes;
+		setVotesDisabled(true);
+		setVotes(currentVotes + increment);
 		voteOnArticle(article_id, increment)
 			.then((res) => {
-				setVotesDisabled(true);
 				if (res.status === 200) {
 					setVoteSuccess(true);
 					setTimeout(() => {
@@ -47,11 +55,12 @@ function Article({ user }) {
 				}
 			})
 			.catch((err) => {
-				setErrMsg(err.message);
+				setVoteErrMsg(err.message);
 				setVoteFail(true);
-				setVotesDisabled(false);
-				setVotes(votes - increment);
+				setVotes(currentVotes);
+
 				setTimeout(() => {
+					setVotesDisabled(false);
 					setVoteFail(false);
 				}, 5000);
 			});
@@ -151,7 +160,7 @@ function Article({ user }) {
 										...props.style,
 									}}
 								>
-									{errMsg}
+									{voteErrMsg}
 								</div>
 							)}
 						</Overlay>
@@ -176,6 +185,10 @@ function Article({ user }) {
 				) : null}
 			</article>
 		);
+	}
+
+	if (errMsg) {
+		return <BadAritcleRequest errMsg={errMsg} />;
 	} else {
 		return <Loading />;
 	}

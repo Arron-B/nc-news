@@ -6,6 +6,7 @@ import { fetchAllArticles } from "../api";
 import { useState, useEffect } from "react";
 import Loading from "./Loading";
 import SortArticles from "./SortArticles";
+import BadArticleRequest from "./BadAritcleRequest";
 
 function Topic({ freshHome }) {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -16,6 +17,7 @@ function Topic({ freshHome }) {
 	const [sortBy, setSortBy] = useState(
 		searchParams.get("sort_by") || "created_at"
 	);
+	const [errMsg, setErrMsg] = useState("");
 
 	useEffect(() => {
 		setSortBy("created_at");
@@ -25,6 +27,8 @@ function Topic({ freshHome }) {
 
 	useEffect(() => {
 		setIsLoading(true);
+		setDisplayArticles(false);
+		setErrMsg("");
 		fetchAllArticles({ sortBy, order, topic })
 			.then((res) => {
 				setDisplayArticles(res.data.articles);
@@ -32,6 +36,7 @@ function Topic({ freshHome }) {
 			})
 			.catch((err) => {
 				console.log(err);
+				setErrMsg(err.response.data.msg);
 			});
 	}, [topic, sortBy, order]);
 
@@ -73,6 +78,9 @@ function Topic({ freshHome }) {
 				)}
 			</>
 		);
+	}
+	if (!displayArticles && errMsg) {
+		return <BadArticleRequest errMsg={errMsg} />;
 	} else {
 		return <Loading />;
 	}
