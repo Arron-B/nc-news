@@ -5,8 +5,8 @@ import {
 	postComment,
 	deleteComment,
 	fetchAllUsers,
-} from "../api";
-import { removeDeletedComment } from "../utils/utils";
+} from "../api.js";
+import { removeDeletedComment } from "../utils/utils.js";
 import Loading from "./Loading";
 
 function Comments({ articleId, user }) {
@@ -92,7 +92,7 @@ function Comments({ articleId, user }) {
 						<p>{user.username}</p>
 					</div>
 
-					<Card.Body className="mx-auto">{postedComment}</Card.Body>
+					<Card.Body className="mx-auto w-100">{postedComment}</Card.Body>
 					<Loading />
 				</Card>
 			) : null;
@@ -231,69 +231,72 @@ function Comments({ articleId, user }) {
 					)}
 				</Overlay>
 				{tempComment ? <ShowPostedComment /> : null}
-				{comments.map((comment, i) => {
-					return (
-						<Card
-							className="py-1"
-							key={`comment${comment.comment_id}`}
-						>
-							<div className="d-flex justify-content-center align-items-center gap-1">
-								<Card.Img
-									className="object-fit-scale comment-img"
-									variant="top"
-									src={
-										users.filter((user) => user.username === comment.author)[0]
-											.avatar_url
-									}
-								/>
-								<p>{comment.author}</p>
-							</div>
-
-							<Card.Body className="mx-auto">{comment.body}</Card.Body>
-							{comment.author === user.username ? (
-								<Button
-									onClick={() => {
-										handleDeleteComment(comment.comment_id, i);
-									}}
-									ref={(el) => (deleteRef.current[i] = el)}
-									disabled={inactiveButtons.includes(i)}
-									variant="danger"
-									className="w-25 mx-auto"
-								>
-									Delete
-								</Button>
-							) : null}
-							<Overlay
-								target={deleteRef.current[i]}
-								show={deleteFail === i}
-								placement="top"
+				<div className="d-flex flex-column gap-2">
+					{comments.map((comment, i) => {
+						return (
+							<Card
+								className="py-1"
+								key={`comment${comment.comment_id}`}
 							>
-								{({
-									placement: _placement,
-									arrowProps: _arrowProps,
-									show: _show,
-									popper: _popper,
-									hasDoneInitialMeasure: _hasDoneInitialMeasure,
-									...props
-								}) => (
-									<div
-										{...props}
-										style={{
-											position: "absolute",
-											backgroundColor: "rgba(184, 28, 28, 0.85)",
-											padding: "2px 10px",
-											color: "white",
-											borderRadius: 3,
-											...props.style,
+								<div className="d-flex justify-content-center align-items-center gap-1">
+									<Card.Img
+										className="object-fit-scale comment-img"
+										variant="top"
+										src={
+											users.filter(
+												(user) => user.username === comment.author
+											)[0].avatar_url
+										}
+									/>
+									<p>{comment.author}</p>
+								</div>
+
+								<Card.Body className="mx-auto w-100">{comment.body}</Card.Body>
+								{comment.author === user.username ? (
+									<Button
+										onClick={() => {
+											handleDeleteComment(comment.comment_id, i);
 										}}
+										ref={(el) => (deleteRef.current[i] = el)}
+										disabled={inactiveButtons.includes(i)}
+										variant="danger"
+										className="w-25 mx-auto"
 									>
-										Failed to delete comment
-									</div>
-								)}
-							</Overlay>
-						</Card>
-					);
-				})}
+										Delete
+									</Button>
+								) : null}
+								<Overlay
+									target={deleteRef.current[i]}
+									show={deleteFail === i}
+									placement="top"
+								>
+									{({
+										placement: _placement,
+										arrowProps: _arrowProps,
+										show: _show,
+										popper: _popper,
+										hasDoneInitialMeasure: _hasDoneInitialMeasure,
+										...props
+									}) => (
+										<div
+											{...props}
+											style={{
+												position: "absolute",
+												backgroundColor: "rgba(184, 28, 28, 0.85)",
+												padding: "2px 10px",
+												color: "white",
+												borderRadius: 3,
+												...props.style,
+											}}
+										>
+											Failed to delete comment
+										</div>
+									)}
+								</Overlay>
+							</Card>
+						);
+					})}
+				</div>
 			</section>
 		);
 	} else {

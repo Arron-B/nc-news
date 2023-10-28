@@ -9,10 +9,17 @@ body {
 	text-align: center;
 	height: 100vh;
 	height: 100dvh;
+	font-family: Rockwell;
 }
 
 a {
 	text-decoration: none !important;
+}
+
+.topic-select-head {
+	position: absolute;
+	top: 0;
+	width: 100%;
 }
 
 .avatar-img {
@@ -54,4 +61,65 @@ a {
 
 .comment-img {
 	width: 4rem !important;
+}
+
+.article-title {
+	text-shadow: 2px 2px #92909071;
+}
+
+.article-img {
+	-webkit-mask-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(rgba(0, 0, 0, 1)),
+		to(rgba(0, 0, 0, 0))
+	);
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+.article-info {
+	top: 65%;
+	text-shadow: 2px 2px #92909071;
+}
+
+.hamburger-bar {
+	height: 0.2rem;
+	width: 80%;
+
+	border-radius: 1rem;
+}
+
+.hamburger-button {
+	width: 3rem;
+	aspect-ratio: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 0.1rem !important;
+}
+
+button {
+	transition: all 0.2s ease-in-out;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+button:hover {
+	transform: scale(1.1);
+}
+
+.user-img {
+	width: 2.5rem;
+	aspect-ratio: 1;
+}
+
+.article-card {
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+		rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+	height: fit-content !important;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }

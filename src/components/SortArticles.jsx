@@ -1,9 +1,13 @@
 import { Form } from "react-bootstrap";
+import { capitaliseFirstLetter } from "../utils/utils.js";
 
 function SortArticles({ order, setOrder, setSortBy }) {
 	return (
-		<>
-			<Form.Select size="sm">
+		<div className="d-flex justify-content-around mb-2">
+			<Form.Select
+				className="w-50"
+				size="sm"
+			>
 				<option
 					onClick={() => {
 						setSortBy("");
@@ -35,14 +39,15 @@ function SortArticles({ order, setOrder, setSortBy }) {
 			</Form.Select>
 
 			<Form.Check
+				className="w-25"
 				type="switch"
 				id="asc-desc"
-				label={order}
+				label={capitaliseFirstLetter(order)}
 				onChange={() => {
 					setOrder(order === "desc" ? "asc" : "desc");
 				}}
 			/>
-		</>
+		</div>
 	);
 }
 
