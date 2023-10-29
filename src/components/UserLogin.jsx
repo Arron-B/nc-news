@@ -1,5 +1,5 @@
 import { Button, Modal, Card } from "react-bootstrap";
-import { fetchAllUsers } from "../api";
+import { fetchAllUsers } from "../api.js";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
@@ -23,7 +23,7 @@ function UserLogin({ handleLogin, showAccounts, setShowAccounts, user }) {
 				{users.map((user) => {
 					return (
 						<Card
-							className="user-card"
+							className="user-card p-1 m-1"
 							key={`select-${user.username}`}
 						>
 							<Card.Img
@@ -31,7 +31,7 @@ function UserLogin({ handleLogin, showAccounts, setShowAccounts, user }) {
 								size="sm"
 								src={user.avatar_url}
 							/>
-							<Card.Body>{user.username}</Card.Body>
+							<Card.Body className="text-center">{user.username}</Card.Body>
 							<Button
 								variant="primary"
 								onClick={() => {

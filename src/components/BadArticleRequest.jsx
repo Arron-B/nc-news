@@ -1,4 +1,4 @@
-function BadAritcleRequest({ errMsg }) {
+function BadArticleRequest({ errMsg }) {
 	return (
 		<main className="h-75 w-100 d-flex justify-content-center align-items-center">
 			<h1 className="">Error: {errMsg}</h1>
@@ -6,4 +6,4 @@ function BadAritcleRequest({ errMsg }) {
 	);
 }
 
-export default BadAritcleRequest;
+export default BadArticleRequest;

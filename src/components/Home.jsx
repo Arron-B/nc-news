@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { fetchAllArticles } from "../api";
+import { fetchAllArticles } from "../api.js";
 import { Link, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 import SortArticles from "./SortArticles.jsx";
@@ -42,27 +42,33 @@ function Home({ freshHome }) {
 					setSortBy={setSortBy}
 				/>
 				{!isLoading ? (
-					displayArticles.map((thisCard) => {
-						return (
-							<Link
-								key={`home-article-${thisCard.article_id}`}
-								to={`/articles/${thisCard.article_id}`}
-							>
-								<Card
-									aria-label={`A card showing the article titled ${thisCard.title}`}
+					<main className="article-list">
+						{displayArticles.map((thisCard) => {
+							return (
+								<Link
+									key={`home-article-${thisCard.article_id}`}
+									to={`/articles/${thisCard.article_id}`}
 								>
-									<Card.Title>{thisCard.title}</Card.Title>
-									<Card.Img
-										variant="top"
-										alt={`an image for the article titled ${thisCard.title}`}
-										src={thisCard.article_img_url}
-									/>
-									<Card.Text>votes: {thisCard.votes}</Card.Text>
-									<Card.Text>Comments: {thisCard.comment_count}</Card.Text>
-								</Card>
-							</Link>
-						);
-					})
+									<Card
+										className="article-card mb-2"
+										aria-label={`A card showing the article titled ${thisCard.title}`}
+									>
+										<Card.Title>{thisCard.title}</Card.Title>
+										<Card.Img
+											className="object-fit-scale"
+											variant="top"
+											alt={`an image for the article titled ${thisCard.title}`}
+											src={thisCard.article_img_url}
+										/>
+										<div className="d-flex align-items-center justify-content-around">
+											<p className="my-0">votes: {thisCard.votes}</p>
+											<p className="my-0">Comments: {thisCard.comment_count}</p>
+										</div>
+									</Card>
+								</Link>
+							);
+						})}
+					</main>
 				) : (
 					<Loading />
 				)}

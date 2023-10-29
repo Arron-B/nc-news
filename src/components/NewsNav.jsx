@@ -1,8 +1,9 @@
 import { Navbar, Button, Offcanvas, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { fetchAllTopics } from "../api";
-import { capitaliseFirstLetter } from "../utils/utils";
+import { fetchAllTopics } from "../api.js";
+import { capitaliseFirstLetter } from "../utils/utils.js";
+import logo from "./logo.png";
 
 function NewsNav({
 	user,
@@ -36,22 +37,30 @@ function NewsNav({
 
 	return (
 		<>
-			<Navbar>
+			<Navbar className="mobile-nav d-flex justify-content-around">
 				<Button
+					className="hamburger-button"
 					variant="secondary"
 					onClick={toggleShow}
 					size="sm"
 				>
-					Topics
+					<div className="hamburger-bar bg-white"></div>
+					<div className="hamburger-bar bg-white"></div>
+					<div className="hamburger-bar bg-white"></div>
 				</Button>
 				<Offcanvas
+					className="off-canvas d-flex p-2 justify-content-evenly align-items-center"
 					show={show}
 					onHide={handleClose}
 				>
-					<Offcanvas.Header closeButton>
-						<Offcanvas.Title>Show articles for:</Offcanvas.Title>
+					<Offcanvas.Header
+						className="topic-select-head"
+						closeButton
+					>
+						<Offcanvas.Title>Choose a topic</Offcanvas.Title>
 					</Offcanvas.Header>
 					<Link
+						className="fs-1"
 						onClick={() => {
 							setShow(!show);
 							setFreshHome(!freshHome);
@@ -59,11 +68,12 @@ function NewsNav({
 						to="/articles"
 						key="link-all-articles"
 					>
-						All Articles
+						All Topics
 					</Link>
 					{topics.map((thisTopic) => {
 						return (
 							<Link
+								className="fs-1"
 								onClick={() => {
 									setShow(!show);
 								}}
@@ -85,11 +95,14 @@ function NewsNav({
 						setFreshHome(!freshHome);
 					}}
 				>
-					<Navbar.Brand className="mx-auto">NC News</Navbar.Brand>
+					<Image
+						className="logo"
+						src={logo}
+					></Image>
 				</Link>
 				{user ? (
 					<Image
-						className="w-25 img-fluid"
+						className="user-img img-fluid"
 						alt="Your user avatar image"
 						src={user.avatar_url}
 						roundedCircle
@@ -97,6 +110,60 @@ function NewsNav({
 				) : (
 					<LoginButton setShowAccounts={setShowAccounts} />
 				)}
+			</Navbar>
+			<div className="empty-space"></div>
+			<div className="empty-space-left"></div>
+			<Navbar className="desktop-nav">
+				{!user ? (
+					<LoginButton setShowAccounts={setShowAccounts} />
+				) : (
+					<Image
+						className="user-img img-fluid"
+						alt="Your user avatar image"
+						src={user.avatar_url}
+						roundedCircle
+					></Image>
+				)}
+				<Link
+					className="mx-auto"
+					to="/"
+					onClick={() => {
+						setFreshHome(!freshHome);
+					}}
+				>
+					<Image
+						className="logo rounded-4"
+						src={logo}
+					></Image>
+				</Link>
+				<Link
+					className="fs-1"
+					onClick={() => {
+						setShow(!show);
+						setFreshHome(!freshHome);
+					}}
+					to="/articles"
+					key="link-all-articles"
+				>
+					All Topics
+				</Link>
+				{topics.map((thisTopic) => {
+					return (
+						<Link
+							className="fs-1"
+							onClick={() => {
+								setShow(!show);
+							}}
+							to={{
+								pathname: "/articles",
+								search: `?topic=${thisTopic}`,
+							}}
+							key={`link-to-${thisTopic}`}
+						>
+							{capitaliseFirstLetter(thisTopic)}
+						</Link>
+					);
+				})}
 			</Navbar>
 		</>
 	);

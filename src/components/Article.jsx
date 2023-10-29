@@ -1,18 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { fetchArticleById, voteOnArticle } from "../api";
-import {
-	Card,
-	Container,
-	Spinner,
-	Button,
-	DropdownButton,
-	Overlay,
-} from "react-bootstrap";
-import { capitaliseFirstLetter } from "../utils/utils";
+import { fetchArticleById, voteOnArticle } from "../api.js";
+import { Card, Container, Button, Overlay } from "react-bootstrap";
+import { capitaliseFirstLetter } from "../utils/utils.js";
 import Comments from "./Comments";
 import Loading from "./Loading";
-import BadAritcleRequest from "./BadAritcleRequest";
+import BadArticleRequest from "./BadArticleRequest.jsx";
+import { format } from "date-fns";
 
 function Article({ user }) {
 	const { article_id } = useParams();
@@ -68,24 +62,51 @@ function Article({ user }) {
 
 	if (article) {
 		return (
-			<article className="d-flex flex-column">
-				<h2>{article.title}</h2>
-				<p>Posted: {article.created_at}</p>
-				<p>{capitaliseFirstLetter(article.topic)}</p>
-				<p>Author: {article.author}</p>
-				<Card.Img
-					variant="top"
-					alt={`an image for article titled ${article.title}`}
-					src={article.article_img_url}
-				/>
+			<article className=" d-flex flex-column justify-content-around">
+				<h2 className="fw-bold article-title">{article.title}</h2>
+
+				<div className="d-flex flex-column align-items-center">
+					<img
+						className="article-img"
+						src={article.article_img_url}
+					></img>
+					<div className="article-info fw-bold w-100 d-flex justify-content-evenly align-items-center mb-2">
+						<div
+							className="m-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Published:</p>
+							<p className="m-0">
+								{format(
+									new Date(article.created_at.split("T")[0]),
+									"dd/MM/yyyy"
+								)}
+							</p>
+						</div>
+						<div
+							className=" m-0 border border-black border-top-0 border-bottom-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Topic:</p>
+							<p className="m-0">{capitaliseFirstLetter(article.topic)}</p>
+						</div>
+						<div
+							className="m-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Author:</p>
+							<p className="m-0"> {article.author}</p>
+						</div>
+					</div>
+				</div>
 				<p>{article.body}</p>
 				<p>Votes: {votes}</p>
 				{user ? (
-					<Container>
+					<Container className="d-flex align-items-center justify-content-center gap-2 mb-1">
 						<Button
-							className="w-50"
-							variant="light"
-							size="sm"
+							className="w-25 vote-button py-0"
+							variant="success"
+							size="md"
 							disabled={votesDisabled}
 							ref={target}
 							onClick={(e) => {
@@ -96,9 +117,9 @@ function Article({ user }) {
 							Vote Up
 						</Button>
 						<Button
-							className="w-50"
-							variant="light"
-							size="sm"
+							className="w-25 vote-button py-0"
+							variant="danger"
+							size="md"
 							disabled={votesDisabled}
 							ref={target}
 							onClick={(e) => {
@@ -167,6 +188,8 @@ function Article({ user }) {
 					</Container>
 				) : null}
 				<Button
+					className="w-50 my-1 comments-button"
+					variant="secondary"
 					aria-label="show/hide comments button"
 					id="comments-button"
 					type="button"
@@ -188,7 +211,7 @@ function Article({ user }) {
 	}
 
 	if (errMsg) {
-		return <BadAritcleRequest errMsg={errMsg} />;
+		return <BadArticleRequest errMsg={errMsg} />;
 	} else {
 		return <Loading />;
 	}
