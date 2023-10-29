@@ -65,14 +65,12 @@ function Article({ user }) {
 			<article className=" d-flex flex-column justify-content-around">
 				<h2 className="fw-bold article-title">{article.title}</h2>
 
-				<div className=" d-flex flex-column align-items-center position-relative">
-					<Card.Img
+				<div className="d-flex flex-column align-items-center">
+					<img
 						className="article-img"
-						variant="top"
-						alt={`an image for article titled ${article.title}`}
 						src={article.article_img_url}
-					/>
-					<div className="article-info fw-bold w-100 position-absolute d-flex justify-content-evenly align-items-center mb-2">
+					></img>
+					<div className="article-info fw-bold w-100 d-flex justify-content-evenly align-items-center mb-2">
 						<div
 							className="m-0 d-flex flex-column"
 							style={{ width: "30%", fontSize: "0.9rem" }}

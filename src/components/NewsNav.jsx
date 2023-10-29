@@ -49,7 +49,7 @@ function NewsNav({
 					<div className="hamburger-bar bg-white"></div>
 				</Button>
 				<Offcanvas
-					className="d-flex p-2 justify-content-evenly align-items-center"
+					className="off-canvas d-flex p-2 justify-content-evenly align-items-center"
 					show={show}
 					onHide={handleClose}
 				>
