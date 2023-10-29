@@ -3,7 +3,7 @@ import { capitaliseFirstLetter } from "../utils/utils.js";
 
 function SortArticles({ order, setOrder, setSortBy }) {
 	return (
-		<div className="d-flex justify-content-around mb-2">
+		<div className="sort-div d-flex justify-content-around mb-2">
 			<Form.Select
 				className="w-50"
 				size="sm"

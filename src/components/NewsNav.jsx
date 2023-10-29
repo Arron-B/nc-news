@@ -37,9 +37,9 @@ function NewsNav({
 
 	return (
 		<>
-			<Navbar className="d-flex justify-content-around">
+			<Navbar className="mobile-nav d-flex justify-content-around">
 				<Button
-					className="hamburger-button d-flex flex-column"
+					className="hamburger-button"
 					variant="secondary"
 					onClick={toggleShow}
 					size="sm"
@@ -96,7 +96,7 @@ function NewsNav({
 					}}
 				>
 					<Image
-						className="img-fluid w-75"
+						className="logo"
 						src={logo}
 					></Image>
 				</Link>
@@ -110,6 +110,60 @@ function NewsNav({
 				) : (
 					<LoginButton setShowAccounts={setShowAccounts} />
 				)}
+			</Navbar>
+			<div className="empty-space"></div>
+			<div className="empty-space-left"></div>
+			<Navbar className="desktop-nav">
+				{!user ? (
+					<LoginButton setShowAccounts={setShowAccounts} />
+				) : (
+					<Image
+						className="user-img img-fluid"
+						alt="Your user avatar image"
+						src={user.avatar_url}
+						roundedCircle
+					></Image>
+				)}
+				<Link
+					className="mx-auto"
+					to="/"
+					onClick={() => {
+						setFreshHome(!freshHome);
+					}}
+				>
+					<Image
+						className="logo rounded-4"
+						src={logo}
+					></Image>
+				</Link>
+				<Link
+					className="fs-1"
+					onClick={() => {
+						setShow(!show);
+						setFreshHome(!freshHome);
+					}}
+					to="/articles"
+					key="link-all-articles"
+				>
+					All Topics
+				</Link>
+				{topics.map((thisTopic) => {
+					return (
+						<Link
+							className="fs-1"
+							onClick={() => {
+								setShow(!show);
+							}}
+							to={{
+								pathname: "/articles",
+								search: `?topic=${thisTopic}`,
+							}}
+							key={`link-to-${thisTopic}`}
+						>
+							{capitaliseFirstLetter(thisTopic)}
+						</Link>
+					);
+				})}
 			</Navbar>
 		</>
 	);

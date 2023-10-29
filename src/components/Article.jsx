@@ -62,49 +62,47 @@ function Article({ user }) {
 
 	if (article) {
 		return (
-			<main className="h-100">
-				<article className=" d-flex flex-column justify-content-around">
-					<h2 className="fw-bold article-title">{article.title}</h2>
+			<article className=" d-flex flex-column justify-content-around">
+				<h2 className="fw-bold article-title">{article.title}</h2>
 
-					<div className=" d-flex flex-column align-items-center position-relative">
-						<Card.Img
-							className="article-img"
-							variant="top"
-							alt={`an image for article titled ${article.title}`}
-							src={article.article_img_url}
-						/>
-						<div className="article-info fw-bold w-100 position-absolute d-flex justify-content-evenly align-items-center mb-2">
-							<div
-								className="m-0 d-flex flex-column"
-								style={{ width: "30%", fontSize: "0.9rem" }}
-							>
-								<p className="m-0">Published:</p>
-								<p className="m-0">
-									{format(
-										new Date(article.created_at.split("T")[0]),
-										"dd/MM/yyyy"
-									)}
-								</p>
-							</div>
-							<div
-								className=" m-0 border border-black border-top-0 border-bottom-0 d-flex flex-column"
-								style={{ width: "30%", fontSize: "0.9rem" }}
-							>
-								<p className="m-0">Topic:</p>
-								<p className="m-0">{capitaliseFirstLetter(article.topic)}</p>
-							</div>
-							<div
-								className="m-0 d-flex flex-column"
-								style={{ width: "30%", fontSize: "0.9rem" }}
-							>
-								<p className="m-0">Author:</p>
-								<p className="m-0"> {article.author}</p>
-							</div>
+				<div className=" d-flex flex-column align-items-center position-relative">
+					<Card.Img
+						className="article-img"
+						variant="top"
+						alt={`an image for article titled ${article.title}`}
+						src={article.article_img_url}
+					/>
+					<div className="article-info fw-bold w-100 position-absolute d-flex justify-content-evenly align-items-center mb-2">
+						<div
+							className="m-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Published:</p>
+							<p className="m-0">
+								{format(
+									new Date(article.created_at.split("T")[0]),
+									"dd/MM/yyyy"
+								)}
+							</p>
+						</div>
+						<div
+							className=" m-0 border border-black border-top-0 border-bottom-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Topic:</p>
+							<p className="m-0">{capitaliseFirstLetter(article.topic)}</p>
+						</div>
+						<div
+							className="m-0 d-flex flex-column"
+							style={{ width: "30%", fontSize: "0.9rem" }}
+						>
+							<p className="m-0">Author:</p>
+							<p className="m-0"> {article.author}</p>
 						</div>
 					</div>
-					<p>{article.body}</p>
-					<p>Votes: {votes}</p>
-				</article>
+				</div>
+				<p>{article.body}</p>
+				<p>Votes: {votes}</p>
 				{user ? (
 					<Container className="d-flex align-items-center justify-content-center gap-2 mb-1">
 						<Button
@@ -192,7 +190,7 @@ function Article({ user }) {
 					</Container>
 				) : null}
 				<Button
-					className="w-50 my-1"
+					className="w-50 my-1 comments-button"
 					variant="secondary"
 					aria-label="show/hide comments button"
 					id="comments-button"
@@ -210,7 +208,7 @@ function Article({ user }) {
 						user={user}
 					/>
 				) : null}
-			</main>
+			</article>
 		);
 	}
 

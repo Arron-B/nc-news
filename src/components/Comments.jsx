@@ -80,7 +80,7 @@ function Comments({ articleId, user }) {
 		{
 			return tempComment ? (
 				<Card
-					className="py-1"
+					className="py-1 shadow-div comment-card mx-auto"
 					key={`comment-new`}
 				>
 					<div className="d-flex justify-content-center align-items-center gap-1">
@@ -140,7 +140,7 @@ function Comments({ articleId, user }) {
 			>
 				{user ? (
 					<Form
-						className="my-2"
+						className="my-2 mx-auto comment-card"
 						style={{ height: "10rem" }}
 						onSubmit={(e) => {
 							e.preventDefault();
@@ -166,6 +166,7 @@ function Comments({ articleId, user }) {
 						<Button
 							type="submit"
 							className="my-2"
+							variant="secondary"
 							ref={target}
 							disabled={inactiveButtons.includes("submit")}
 						>
@@ -235,7 +236,7 @@ function Comments({ articleId, user }) {
 					{comments.map((comment, i) => {
 						return (
 							<Card
-								className="py-1"
+								className="py-1 shadow-div comment-card mx-auto"
 								key={`comment${comment.comment_id}`}
 							>
 								<div className="d-flex justify-content-center align-items-center gap-1">

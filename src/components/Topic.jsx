@@ -50,30 +50,34 @@ function Topic({ freshHome }) {
 				{!isLoading ? (
 					<>
 						<h1>{topic ? capitaliseFirstLetter(topic) : "All Articles"}</h1>
-						{displayArticles.map((thisCard) => {
-							return (
-								<Link
-									key={`${topic}-article-${thisCard.article_id}`}
-									to={`/articles/${thisCard.article_id}`}
-								>
-									<Card
-										className="article-card mb-2"
-										aria-label={`A card showing the article titled ${thisCard.title}`}
+						<main className="article-list">
+							{displayArticles.map((thisCard) => {
+								return (
+									<Link
+										key={`${topic}-article-${thisCard.article_id}`}
+										to={`/articles/${thisCard.article_id}`}
 									>
-										<Card.Title>{thisCard.title}</Card.Title>
-										<Card.Img
-											variant="top"
-											alt={`an image for the article titled ${thisCard.title}`}
-											src={thisCard.article_img_url}
-										/>
-										<div className="d-flex align-items-center justify-content-around">
-											<p className="my-0">votes: {thisCard.votes}</p>
-											<p className="my-0">Comments: {thisCard.comment_count}</p>
-										</div>
-									</Card>
-								</Link>
-							);
-						})}
+										<Card
+											className="article-card mb-2"
+											aria-label={`A card showing the article titled ${thisCard.title}`}
+										>
+											<Card.Title>{thisCard.title}</Card.Title>
+											<Card.Img
+												variant="top"
+												alt={`an image for the article titled ${thisCard.title}`}
+												src={thisCard.article_img_url}
+											/>
+											<div className="d-flex align-items-center justify-content-around">
+												<p className="my-0">votes: {thisCard.votes}</p>
+												<p className="my-0">
+													Comments: {thisCard.comment_count}
+												</p>
+											</div>
+										</Card>
+									</Link>
+								);
+							})}
+						</main>
 					</>
 				) : (
 					<Loading />
