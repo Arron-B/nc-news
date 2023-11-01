@@ -5,37 +5,16 @@ function SortArticles({ order, setOrder, setSortBy }) {
 	return (
 		<div className="sort-div d-flex justify-content-around mb-2">
 			<Form.Select
+				onChange={(e) => {
+					setSortBy(e.target.value);
+				}}
 				className="w-50"
 				size="sm"
 			>
-				<option
-					onClick={() => {
-						setSortBy("");
-					}}
-				>
-					Date
-				</option>
-				<option
-					onClick={() => {
-						setSortBy("comment_count");
-					}}
-				>
-					Comments
-				</option>
-				<option
-					onClick={() => {
-						setSortBy("votes");
-					}}
-				>
-					Votes
-				</option>
-				<option
-					onClick={() => {
-						setSortBy("author");
-					}}
-				>
-					Author
-				</option>
+				<option value={"created_at"}>Date</option>
+				<option value={"comment_count"}>Comments</option>
+				<option value={"votes"}>Votes</option>
+				<option value={"author"}>Author</option>
 			</Form.Select>
 
 			<Form.Check
