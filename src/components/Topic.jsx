@@ -23,9 +23,10 @@ function Topic({ freshHome }) {
 		setSortBy("created_at");
 		setOrder("desc");
 		setTopic(searchParams.get("topic") || "");
-	}, [freshHome, searchParams]);
+	}, [freshHome]);
 
 	useEffect(() => {
+		setSearchParams({ sort_by: sortBy, order: order, topic: topic });
 		setIsLoading(true);
 		setErrMsg("");
 		fetchAllArticles({ sortBy, order, topic })

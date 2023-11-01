@@ -10,7 +10,7 @@ function Home({ freshHome }) {
 	const [displayArticles, setDisplayArticles] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [order, setOrder] = useState(searchParams.get("order") || "desc");
-	const [topic, setTopic] = useState(false);
+	const [topic, setTopic] = useState("");
 	const [sortBy, setSortBy] = useState(
 		searchParams.get("sort_by") || "created_at"
 	);
