@@ -100,7 +100,17 @@ function Article({ user }) {
 					</div>
 				</div>
 				<p>{article.body}</p>
-				<p>Votes: {votes}</p>
+				{votes >= 0 ? (
+					<div className="d-flex mx-auto">
+						<span className="material-symbols-outlined">thumb_up</span>{" "}
+						<p>{votes}</p>
+					</div>
+				) : (
+					<div className="d-flex mx-auto">
+						<span className="material-symbols-outlined">thumb_down</span>
+						<p>{votes}</p>
+					</div>
+				)}
 				{user ? (
 					<Container className="d-flex align-items-center justify-content-center gap-2 mb-1">
 						<Button
@@ -114,7 +124,7 @@ function Article({ user }) {
 								handleVote(1);
 							}}
 						>
-							Vote Up
+							<span className="material-symbols-outlined">thumb_up</span>
 						</Button>
 						<Button
 							className="w-25 vote-button py-0"
@@ -127,7 +137,7 @@ function Article({ user }) {
 								handleVote(-1);
 							}}
 						>
-							Vote Down
+							<span className="material-symbols-outlined">thumb_down</span>
 						</Button>
 						<Overlay
 							target={target.current}

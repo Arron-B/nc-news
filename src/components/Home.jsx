@@ -53,16 +53,35 @@ function Home({ freshHome }) {
 										className="article-card mb-2"
 										aria-label={`A card showing the article titled ${thisCard.title}`}
 									>
-										<Card.Title>{thisCard.title}</Card.Title>
+										<div className="card-title">
+											<Card.Title>{thisCard.title}</Card.Title>
+										</div>
 										<Card.Img
-											className="object-fit-scale"
+											className="card-img"
 											variant="top"
 											alt={`an image for the article titled ${thisCard.title}`}
 											src={thisCard.article_img_url}
 										/>
-										<div className="d-flex align-items-center justify-content-around">
-											<p className="my-0">votes: {thisCard.votes}</p>
-											<p className="my-0">Comments: {thisCard.comment_count}</p>
+										<div className="card-icons d-flex align-items-center justify-content-around">
+											<div className="d-flex align-items-center">
+												{thisCard.votes >= 0 ? (
+													<span className="material-symbols-outlined">
+														thumb_up
+													</span>
+												) : (
+													<span className="material-symbols-outlined">
+														thumb_down
+													</span>
+												)}
+
+												<p className="my-0">{thisCard.votes}</p>
+											</div>
+											<div className="d-flex align-items-center">
+												<span className="material-symbols-outlined">
+													comment
+												</span>
+												<p className="my-0">{thisCard.comment_count}</p>
+											</div>
 										</div>
 									</Card>
 								</Link>
