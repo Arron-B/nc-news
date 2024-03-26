@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import { capitaliseFirstLetter } from "../utils/utils.js";
 
-function SortArticles({ order, setOrder, setSortBy }) {
+function SortArticles({ order, setOrder, setSortBy, sortBy, freshHome }) {
 	return (
 		<div className="sort-div d-flex justify-content-around mb-2">
 			<Form.Select

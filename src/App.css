@@ -2,6 +2,10 @@
 	box-sizing: border-box;
 }
 
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
 body {
 	height: 100vh;
 	height: 100dvh;
@@ -27,7 +31,7 @@ a {
 	background-color: white;
 	top: 0;
 	left: 0;
-	height: 9rem;
+	height: 5rem;
 }
 
 .empty-space {
@@ -35,7 +39,7 @@ a {
 }
 
 .logo {
-	width: 11rem;
+	width: 10rem;
 }
 
 .topic-select-head {
@@ -83,6 +87,13 @@ body article {
 	margin-top: auto !important;
 	margin-bottom: auto !important;
 	min-height: 95vh;
+}
+
+.article-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(auto, 1fr);
+	grid-gap: 1rem;
 }
 
 .article-title {
@@ -155,15 +166,48 @@ button:hover {
 	margin: 1rem;
 }
 
-.article-card {
+body .article-card {
+	box-sizing: border-box !important;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
 		rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 	height: fit-content !important;
-	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+	padding: 0.5rem !important;
+	height: 100% !important;
+	border: none !important;
+	display: grid;
+	grid-template-rows: 4rem 16rem 2rem;
+	grid-template-columns: 100%;
+	grid-gap: 0.2rem;
+	padding-bottom: 1rem;
 }
 
-.h5 {
+body .card-title {
+	grid-row: 1 / 2;
+	margin-top: auto;
+	margin-bottom: auto;
+	font-size: 1rem;
+	max-height: 4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+body .card-img {
+	grid-row: 2 / 3;
+	height: 100%;
+	width: 100%;
+	object-fit: scale-down;
+}
+
+body .card-icons {
+	grid-row: 3 / 4;
+	font-size: 0.8rem !important;
+	margin-top: 0.5rem;
+}
+
+body .h5 {
 	text-shadow: 2px 2px #92909071;
+	text-overflow: ellipsis;
 }
 
 .shadow-div {
@@ -201,12 +245,7 @@ body .desktop-nav {
 	body {
 		font-size: 18px;
 	}
-	.article-list {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: repeat(auto, 1fr);
-		grid-gap: 1rem;
-	}
+
 	.article-card {
 		height: 100% !important;
 		justify-content: space-evenly;
@@ -256,17 +295,6 @@ body .desktop-nav {
 		-webkit-transform: scale(1.2, 1.2);
 		display: inline-block;
 		transform: scale(1.2);
-	}
-
-	body .article-card {
-		transition: all 0.2s ease-in-out !important;
-	}
-
-	.article-card:hover {
-		-ms-transform: scale(1.05, 1.05);
-		-webkit-transform: scale(1.05, 1.05);
-		display: inline-block;
-		transform: scale(1.05);
 	}
 
 	.article-list {

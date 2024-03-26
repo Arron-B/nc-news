@@ -76,6 +76,7 @@ function NewsNav({
 								className="fs-1"
 								onClick={() => {
 									setShow(!show);
+									setFreshHome(!freshHome);
 								}}
 								to={{
 									pathname: "/articles",
@@ -150,6 +151,9 @@ function NewsNav({
 					return (
 						<Link
 							className="fs-1"
+							onClick={() => {
+								setFreshHome(!freshHome);
+							}}
 							to={{
 								pathname: "/articles",
 								search: `?topic=${thisTopic}`,
