@@ -39,7 +39,7 @@ a {
 }
 
 .logo {
-	width: 10rem;
+	width: 8rem;
 }
 
 .topic-select-head {
@@ -175,7 +175,7 @@ body .article-card {
 	height: 100% !important;
 	border: none !important;
 	display: grid;
-	grid-template-rows: 4rem 16rem 2rem;
+	grid-template-rows: 4rem 8rem 2rem;
 	grid-template-columns: 100%;
 	grid-gap: 0.2rem;
 	padding-bottom: 1rem;
@@ -249,6 +249,7 @@ body .desktop-nav {
 	.article-card {
 		height: 100% !important;
 		justify-content: space-evenly;
+		grid-template-rows: 4rem 16rem 2rem !important;
 	}
 	body .comment-card {
 		min-width: 60%;
@@ -260,6 +261,10 @@ body .desktop-nav {
 }
 @media (min-width: 961px) {
 	/* tablet, landscape iPad, lo-res laptops ands desktops */
+
+	.logo {
+		width: 10rem;
+	}
 
 	.form-select {
 		height: 2.5rem;
