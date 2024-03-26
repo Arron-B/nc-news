@@ -22,6 +22,7 @@ function Home({ freshHome }) {
 			.then((res) => {
 				setDisplayArticles(res.data.articles);
 				setIsLoading(false);
+				setlongLoad(false);
 			})
 			.catch((err) => {
 				console.log(err.response.data.msg);

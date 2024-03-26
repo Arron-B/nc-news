@@ -10,6 +10,11 @@ function Loading() {
 				<span className="visually-hidden "></span>
 			</Spinner>
 			<p>Loading...</p>
+
+			<p>
+				{" "}
+				Please allow time for the server to spin up as it is a free service{" "}
+			</p>
 		</Container>
 	);
 }
