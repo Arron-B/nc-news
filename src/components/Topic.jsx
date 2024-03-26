@@ -69,7 +69,7 @@ function Topic({ freshHome }) {
 												alt={`an image for the article titled ${thisCard.title}`}
 												src={thisCard.article_img_url}
 											/>
-											<div className="card-icons d-flex align-items-center justify-content-around">
+											<div className="card-icons d-flex align-items-center justify-content-evenly">
 												<div className="d-flex align-items-center">
 													{thisCard.votes >= 0 ? (
 														<span className="material-symbols-outlined">
