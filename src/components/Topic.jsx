@@ -20,8 +20,6 @@ function Topic({ freshHome }) {
 	const [errMsg, setErrMsg] = useState("");
 
 	useEffect(() => {
-		setSortBy("created_at");
-		setOrder("desc");
 		setTopic(searchParams.get("topic") || "");
 	}, [freshHome]);
 

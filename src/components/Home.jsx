@@ -16,11 +16,6 @@ function Home({ freshHome }) {
 	);
 
 	useEffect(() => {
-		setSortBy("created_at");
-		setOrder("desc");
-	}, [freshHome]);
-
-	useEffect(() => {
 		setIsLoading(true);
 		setSearchParams({ sort_by: sortBy, order: order, topic: topic });
 		fetchAllArticles({ sortBy, order })
