@@ -23,7 +23,6 @@ function Topic({ freshHome }) {
 		setSortBy("created_at");
 		setOrder("desc");
 		setTopic(searchParams.get("topic") || "");
-		console.log(searchParams.get("topic"));
 	}, [freshHome]);
 
 	useEffect(() => {

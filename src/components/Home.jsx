@@ -40,6 +40,8 @@ function Home({ freshHome }) {
 					order={order}
 					setOrder={setOrder}
 					setSortBy={setSortBy}
+					sortBy={sortBy}
+					freshHome={freshHome}
 				/>
 				{!isLoading ? (
 					<main className="article-list">
