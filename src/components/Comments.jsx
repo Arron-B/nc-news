@@ -4,12 +4,11 @@ import {
 	fetchCommentsByArticleId,
 	postComment,
 	deleteComment,
-	fetchAllUsers,
 } from "../api.js";
 import { removeDeletedComment } from "../utils/utils.js";
 import Loading from "./Loading";
 
-function Comments({ articleId, user }) {
+function Comments({ articleId, user, users }) {
 	const [comments, setComments] = useState(false);
 	const target = useRef(null);
 	const deleteRef = useRef([]);
@@ -22,13 +21,6 @@ function Comments({ articleId, user }) {
 	const [tempComment, setTempComment] = useState(false);
 	const [deleteFail, setDeleteFail] = useState("");
 	const [inactiveButtons, setInactiveButtons] = useState([]);
-	const [users, setUsers] = useState("");
-
-	useEffect(() => {
-		fetchAllUsers().then((res) => {
-			setUsers(res.data.users);
-		});
-	}, []);
 
 	useEffect(() => {
 		deleteRef.current = deleteRef.current.slice(0, comments.length);

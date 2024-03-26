@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { fetchArticleById, voteOnArticle } from "../api.js";
+import { fetchArticleById, voteOnArticle, fetchAllUsers } from "../api.js";
 import { Card, Container, Button, Overlay } from "react-bootstrap";
 import { capitaliseFirstLetter } from "../utils/utils.js";
 import Comments from "./Comments";
@@ -22,6 +22,15 @@ function Article({ user }) {
 	const [errMsg, setErrMsg] = useState(""); //error for bad article
 	const [votesDisabled, setVotesDisabled] = useState(false);
 	const [showComments, setShowComments] = useState(false);
+	const [usersReady, setUsersReady] = useState(false);
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		fetchAllUsers().then((res) => {
+			setUsersReady(true);
+			setUsers(res.data.users);
+		});
+	}, []);
 
 	useEffect(() => {
 		fetchArticleById(article_id)
@@ -197,23 +206,27 @@ function Article({ user }) {
 						</Overlay>
 					</Container>
 				) : null}
-				<Button
-					className="w-50 my-1 comments-button"
-					variant="secondary"
-					aria-label="show/hide comments button"
-					id="comments-button"
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						setShowComments(!showComments);
-					}}
-				>
-					Comments
-				</Button>
+				{usersReady ? (
+					<Button
+						className="w-50 my-1 comments-button"
+						variant="secondary"
+						aria-label="show/hide comments button"
+						id="comments-button"
+						type="button"
+						onClick={(e) => {
+							e.preventDefault();
+							setShowComments(!showComments);
+						}}
+					>
+						Comments
+					</Button>
+				) : null}
+
 				{showComments ? (
 					<Comments
 						articleId={article_id}
 						user={user}
+						users={users}
 					/>
 				) : null}
 			</article>
