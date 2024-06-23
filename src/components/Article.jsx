@@ -71,7 +71,7 @@ function Article({ user }) {
 
 	if (article) {
 		return (
-			<article className=" d-flex flex-column justify-content-around">
+			<article className="mt-5 mx-5 d-flex flex-column justify-content-around">
 				<h2 className="fw-bold article-title">{article.title}</h2>
 
 				<div className="d-flex flex-column align-items-center">
@@ -108,7 +108,7 @@ function Article({ user }) {
 						</div>
 					</div>
 				</div>
-				<p>{article.body}</p>
+				<p className="mx-5">{article.body}</p>
 				{votes >= 0 ? (
 					<div className="d-flex mx-auto">
 						<span className="material-symbols-outlined">thumb_up</span>{" "}
